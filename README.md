@@ -76,7 +76,7 @@ el HTML ni el CSS.
 
 ```nginx
 server {
-    server_name nutrioffice.app;
+    server_name nutrioffice.com.ar;
     root /var/www/pagina-presentacion/dist;
     index index.html;
 
@@ -189,7 +189,8 @@ nada.
 - **El logo** → `public/recursos/marca.svg` (ver «La marca»). **El nombre** →
   los dos `.marca` de `Cabecera.astro` y `Pie.astro`.
 - **El correo de contacto** → `Cierre.astro`, `Pie.astro` y las dos páginas
-  legales. Hoy es `hola@nutrioffice.app`, que es un marcador.
+  legales. Hoy es `hola@nutrioffice.com.ar`, que es un marcador: la política
+  de privacidad declara como contacto `nicolasis14@hotmail.com`.
 - **Los colores** → `:root` en `global.css` es el tema oscuro (el de casa) y
   `:root[data-tema="claro"]` es el claro. Los dos bloques tienen los mismos
   nombres de variable.

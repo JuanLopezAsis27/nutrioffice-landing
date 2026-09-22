@@ -7,7 +7,9 @@ const producto = [
   { href: "/#ia", texto: "Inteligencia artificial" },
   { href: "/#portal", texto: "Portal del paciente" },
   { href: "/#integraciones", texto: "Integraciones" },
-  { href: "/#preguntas", texto: "Preguntas frecuentes" },
+  // Comentado junto con <Preguntas /> en index.astro: sin esa sección, el
+  // enlace apuntaba a un ancla que no existe. Los dos se descomentan juntos.
+  // { href: "/#preguntas", texto: "Preguntas frecuentes" },
 ];
 
 const legales = [
@@ -47,9 +49,9 @@ const legales = [
       <h2>Contacto</h2>
       <ul>
         <li>
-          <a href="mailto:hola@nutrioffice.app">
+          <a href="mailto:hola@nutrioffice.com.ar">
             <Icono nombre="mail" />
-            hola@nutrioffice.app
+            hola@nutrioffice.com.ar
           </a>
         </li>
         <li>

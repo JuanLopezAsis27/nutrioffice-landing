@@ -1,295 +1,297 @@
 ---
-import Icono from "../componentes/Icono.astro";
 import Texto from "../plantillas/Texto.astro";
 
+/**
+ * Política de privacidad. El texto es el que aprobó el profesional; acá solo
+ * está maquetado. Los únicos cambios respecto del original son los dominios:
+ * `app.licnicolopezasis.com.ar` → `app.nutrioffice.com.ar` y
+ * `licnicolopezasis.com.ar` → `nutrioffice.com.ar`.
+ *
+ * Si se edita el contenido, que se edite acá: esta página es la fuente.
+ */
 const indice = [
-  { id: "quienes", texto: "Quiénes somos" },
-  { id: "roles", texto: "Los dos roles: profesional y plataforma" },
-  { id: "datos", texto: "Qué datos se tratan" },
-  { id: "finalidad", texto: "Para qué se usan" },
-  { id: "salud", texto: "Datos de salud" },
-  { id: "terceros", texto: "Con quién se comparten" },
+  { id: "introduccion", texto: "Introducción" },
+  { id: "alcance", texto: "Alcance de esta política" },
+  { id: "sitio", texto: "Datos que recopilamos en el sitio público" },
+  { id: "plataforma", texto: "Datos en la plataforma de gestión" },
+  { id: "sensibles", texto: "Datos sensibles y consentimiento" },
+  { id: "finalidad", texto: "Para qué utilizamos tu información" },
+  { id: "google", texto: "Google Calendar y las API de Google" },
   { id: "ia", texto: "Inteligencia artificial" },
-  { id: "conservacion", texto: "Dónde se guardan y por cuánto tiempo" },
+  { id: "correos", texto: "Envío de correos electrónicos" },
+  { id: "whatsapp", texto: "WhatsApp" },
+  { id: "terceros", texto: "Compartición con terceros" },
+  { id: "almacenamiento", texto: "Almacenamiento y conservación" },
   { id: "seguridad", texto: "Seguridad" },
-  { id: "derechos", texto: "Derechos de las personas" },
-  { id: "cookies", texto: "Cookies y almacenamiento local" },
-  { id: "menores", texto: "Menores de edad" },
-  { id: "cambios", texto: "Cambios en esta política" },
+  { id: "derechos", texto: "Tus derechos" },
+  { id: "otros", texto: "Otros puntos" },
   { id: "contacto", texto: "Contacto" },
 ];
 ---
 
 <Texto
   titulo="Política de privacidad — NutriOffice"
-  descripcion="Qué datos trata NutriOffice, con qué finalidad, con quién se comparten y cómo se ejercen los derechos sobre ellos."
+  descripcion="Qué información se recopila en el sitio y en la plataforma de gestión de pacientes, con qué finalidad se usa, cómo se resguarda y cuáles son tus derechos."
   encabezado="Política de privacidad"
-  entrada="Qué datos recoge NutriOffice, para qué se usan, quién más los ve y cómo se ejercen los derechos sobre ellos. Sin vueltas."
-  actualizado="22 de septiembre de 2026"
+  entrada="Aplica al sitio público de Nicolás López Asis y a su plataforma de gestión de pacientes en app.nutrioffice.com.ar."
+  actualizado="9 de septiembre de 2026"
   indice={indice}
 >
-  <div class="aviso">
-    <Icono nombre="circle-help" />
-    <span>
-      <strong>Modelo para completar y revisar.</strong> Los tramos entre
-      corchetes hay que reemplazarlos por los datos reales, y conviene que un
-      profesional del derecho revise el texto antes de publicarlo. Una vez
-      revisado, borrá este recuadro del archivo
-      <code>src/pages/privacidad.astro</code>.
-    </span>
-  </div>
-
-  <h2 id="quienes">1. Quiénes somos</h2>
+  <h2 id="introduccion">1. Introducción</h2>
   <p>
-    NutriOffice es una plataforma de gestión para consultorios de nutrición,
-    operada por <span class="completar">[razón social]</span>, con domicilio en
-    <span class="completar">[domicilio]</span> y correo de contacto
-    <a href="mailto:hola@nutrioffice.app">hola@nutrioffice.app</a>.
-  </p>
-  <p>
-    Esta política explica el tratamiento de los datos personales de quienes usan
-    la plataforma: los profesionales que contratan el servicio y los pacientes
-    cuyos datos se cargan en él.
+    Esta Política de Privacidad describe qué información se recopila, con qué
+    finalidad se utiliza, cómo se resguarda y cuáles son tus derechos como
+    visitante, paciente o usuario. Al usar este sitio, reservar un turno o
+    utilizar la plataforma de gestión de pacientes, aceptás las prácticas
+    descriptas a continuación.
   </p>
 
-  <h2 id="roles">2. Los dos roles: el profesional y la plataforma</h2>
-  <p>
-    Esta distinción es la que ordena todo lo demás:
-  </p>
+  <h2 id="alcance">2. Alcance de esta política</h2>
+  <p>Esta política cubre dos entornos:</p>
   <ul>
     <li>
-      <strong>El profesional es el responsable</strong> de los datos de sus
-      pacientes. Él decide qué carga, para qué, a quién se lo muestra y cuánto
-      tiempo lo conserva. La relación clínica es suya.
+      <strong>El sitio público</strong> (<code>nutrioffice.com.ar</code>):
+      información institucional, blog, formulario de contacto y reserva de
+      turnos.
     </li>
     <li>
-      <strong>NutriOffice es el encargado del tratamiento.</strong> Guarda y
-      procesa esos datos por cuenta del profesional, siguiendo sus
-      instrucciones, y no los usa para ninguna finalidad propia.
-    </li>
-  </ul>
-  <p>
-    En la práctica: si un paciente quiere saber qué datos suyos hay cargados, o
-    quiere que se rectifiquen o se borren, el interlocutor es su nutricionista.
-    NutriOffice acompaña ese pedido con las herramientas que hagan falta.
-  </p>
-  <p>
-    Cada consultorio funciona además como un compartimento separado: los datos
-    de un profesional no son accesibles desde la cuenta de otro.
-  </p>
-
-  <h2 id="datos">3. Qué datos se tratan</h2>
-  <h3>De la cuenta profesional</h3>
-  <ul>
-    <li>Nombre, correo electrónico y contraseña (guardada siempre cifrada, nunca en texto plano).</li>
-    <li>Datos del consultorio: membrete, establecimientos, horarios de atención y preferencias de configuración.</li>
-    <li>Credenciales de los servicios que se conecten, guardadas cifradas.</li>
-  </ul>
-
-  <h3>De los pacientes, cargados por el profesional</h3>
-  <ul>
-    <li>Identificación y contacto: nombre, documento, fecha de nacimiento, sexo biológico, teléfono, correo electrónico.</li>
-    <li>Datos clínicos y de seguimiento: historia clínica, evoluciones, antropometrías, laboratorios, objetivos, planes, registros del diario y métricas de dispositivos.</li>
-    <li>Archivos que se suban: documentos, estudios, fotos de comidas, grabaciones de la consulta y sus transcripciones.</li>
-    <li>Mensajes intercambiados por el chat del portal o por WhatsApp.</li>
-  </ul>
-
-  <h3>Técnicos</h3>
-  <ul>
-    <li>Registros de acceso y de errores, con fecha, hora y tipo de operación, para diagnosticar fallas y detectar usos indebidos.</li>
-    <li>Cookies de sesión y datos guardados en el navegador (ver el apartado 11).</li>
-  </ul>
-
-  <h2 id="finalidad">4. Para qué se usan</h2>
-  <ul>
-    <li>Prestar el servicio: agenda, planes, seguimiento, mensajería y portal del paciente.</li>
-    <li>Enviar los avisos que el consultorio configure: recordatorios de turno, bienvenida y recuperación de contraseña.</li>
-    <li>Sostener la seguridad de las cuentas y cumplir obligaciones legales.</li>
-    <li>Mejorar la plataforma a partir de métricas agregadas, que no identifican a ninguna persona.</li>
-  </ul>
-  <p>
-    <strong>Lo que no se hace:</strong> los datos no se venden, no se ceden con
-    fines publicitarios y no se usan para perfilar personas ni para entrenar
-    modelos de inteligencia artificial.
-  </p>
-
-  <h2 id="salud">5. Datos de salud</h2>
-  <p>
-    Buena parte de lo que se carga en NutriOffice son <strong>datos sensibles</strong>:
-    información de salud de una persona identificada. Eso implica tres cosas.
-  </p>
-  <ul>
-    <li>
-      El profesional debe contar con el consentimiento del paciente para
-      registrar y tratar esa información, y es quien mejor puede explicarle para
-      qué se usa.
-    </li>
-    <li>
-      El acceso está restringido por rol: un paciente solo ve sus propios datos,
-      y de su evaluación solo la parte que el profesional expone en el portal.
-      La historia clínica, los laboratorios y las alertas no se publican del
-      lado del paciente.
-    </li>
-    <li>
-      El personal de <span class="completar">[razón social]</span> no accede al
-      contenido clínico salvo pedido expreso del profesional para resolver un
-      problema puntual, y con registro de ese acceso.
+      <strong>La plataforma de gestión de pacientes (CRM)</strong>, registrada
+      en la pantalla de consentimiento de Google como «Lic. Nicolás López
+      Asis», en <code>app.nutrioffice.com.ar</code>: de uso del profesional
+      para administrar turnos, historias y planes de sus pacientes.
     </li>
   </ul>
 
-  <h2 id="terceros">6. Con quién se comparten</h2>
-  <p>
-    Solo con los proveedores necesarios para que el servicio funcione, y
-    únicamente con lo que cada uno necesita:
-  </p>
-  <table>
-    <thead>
-      <tr>
-        <th>Proveedor</th>
-        <th>Para qué</th>
-        <th>Qué recibe</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="completar">[proveedor de hosting]</span></td>
-        <td>Servidores y base de datos</td>
-        <td>Todo lo alojado, cifrado en tránsito</td>
-      </tr>
-      <tr>
-        <td>Meta (WhatsApp Cloud API)</td>
-        <td>Recordatorios y mensajes, si el consultorio la conecta</td>
-        <td>Teléfono del paciente y el texto del mensaje</td>
-      </tr>
-      <tr>
-        <td>Google</td>
-        <td>Sincronización de turnos con el calendario del profesional</td>
-        <td>Fecha, hora y referencia del turno</td>
-      </tr>
-      <tr>
-        <td>Anthropic, OpenAI u OpenRouter</td>
-        <td>Funciones de inteligencia artificial, si se activan</td>
-        <td>Solo el texto o el audio de cada pedido (ver el apartado 7)</td>
-      </tr>
-      <tr>
-        <td><span class="completar">[proveedor de correo]</span></td>
-        <td>Envío de correos del sistema</td>
-        <td>Dirección de correo y contenido del mensaje</td>
-      </tr>
-    </tbody>
-  </table>
-  <p>
-    Si el consultorio no conecta un servicio, no se le envía nada. WhatsApp,
-    Google y la inteligencia artificial son opcionales y vienen desactivados.
-  </p>
-
-  <h2 id="ia">7. Inteligencia artificial</h2>
-  <p>
-    Las funciones asistidas por IA se activan cargando una clave propia del
-    consultorio. Mientras no haya clave, no se envía nada a ningún proveedor de
-    modelos.
-  </p>
+  <h2 id="sitio">3. Datos que recopilamos en el sitio público</h2>
   <ul>
     <li>
-      Se envía <strong>solo lo que la función necesita</strong>: el documento
-      que se está interpretando, el audio que se transcribe o la pregunta del
-      chat con los datos que ésta requiera.
+      <strong>Formulario de contacto:</strong> nombre y mensaje. Se usan
+      únicamente para armar un mensaje que se envía por WhatsApp directamente
+      desde tu navegador; el sitio no los almacena en ningún servidor propio.
     </li>
     <li>
-      Lo que el modelo devuelve <strong>nunca se guarda solo</strong>: precarga
-      un formulario que el profesional revisa y confirma. Un dato clínico no
-      entra en una ficha sin que alguien lo valide.
+      <strong>Contacto directo:</strong> si nos escribís por WhatsApp, email o
+      teléfono, recibimos la información que decidas compartirnos.
     </li>
     <li>
-      Los contenidos enviados no se utilizan para entrenar modelos. Las
-      condiciones de cada proveedor están en sus propios términos, y la clave
-      con la que se los usa es del consultorio.
+      <strong>Google Calendar:</strong> al reservar o gestionar un turno se
+      solicita permiso para acceder a Google Calendar y crear, consultar o
+      modificar el evento correspondiente (ver punto 7).
     </li>
   </ul>
 
-  <h2 id="conservacion">8. Dónde se guardan y por cuánto tiempo</h2>
+  <h2 id="plataforma">4. Datos que recopilamos en la plataforma de gestión de pacientes</h2>
   <p>
-    Los datos se alojan en servidores de <span class="completar">[proveedor]</span>
-    ubicados en <span class="completar">[país o región]</span>. Las copias de
-    respaldo se conservan durante <span class="completar">[plazo]</span> y están
-    cifradas.
+    Cuando el profesional te da de alta como paciente en
+    <code>app.nutrioffice.com.ar</code>, la plataforma guarda la información
+    necesaria para tu atención y seguimiento:
   </p>
+  <ul>
+    <li><strong>Datos de contacto:</strong> nombre, teléfono, email y domicilio.</li>
+    <li>
+      <strong>Datos de salud y antropométricos:</strong> peso, medidas,
+      patologías, antecedentes y notas clínicas de cada consulta.
+    </li>
+    <li>
+      <strong>Planes alimentarios y seguimiento:</strong> dietas asignadas,
+      objetivos y evolución a lo largo del tratamiento.
+    </li>
+    <li>
+      <strong>Historial de turnos y pagos:</strong> fechas de consulta, estado y
+      registros de pago cuando corresponda.
+    </li>
+  </ul>
+
+  <h2 id="sensibles">5. Datos sensibles y consentimiento</h2>
   <p>
-    Los datos de un paciente se conservan mientras el profesional mantenga
-    activa su cuenta, y durante los plazos que la normativa sanitaria imponga a
-    una historia clínica. Dada de baja la cuenta, se eliminan dentro de los
-    <span class="completar">[plazo]</span> días siguientes, salvo lo que haya
-    que conservar por obligación legal.
+    Tus datos de salud y antropométricos son <strong>datos sensibles</strong> en
+    los términos de la Ley 25.326 de Protección de Datos Personales. Al iniciar
+    o continuar un proceso de atención nutricional y facilitar esos datos al
+    profesional, prestás tu consentimiento informado y expreso para su
+    tratamiento, exclusivamente con el fin de brindarte atención nutricional y
+    permitir el control de tu evolución por parte del profesional. No se
+    utilizan con fines comerciales ni se ceden a terceros ajenos a tu
+    tratamiento.
   </p>
 
-  <h2 id="seguridad">9. Seguridad</h2>
+  <h2 id="finalidad">6. Para qué utilizamos tu información</h2>
   <ul>
-    <li>Todo el tráfico viaja cifrado con HTTPS.</li>
-    <li>Las contraseñas se guardan con un algoritmo de hash de un solo sentido: no se pueden leer, ni siquiera desde adentro.</li>
-    <li>Las sesiones son cortas y se acompañan de un token de renovación revocable; ante un uso sospechoso, se dan de baja todas las sesiones de esa cadena.</li>
-    <li>Los archivos no se sirven por enlaces públicos: cada descarga pasa por la aplicación, que verifica quién la pide.</li>
-    <li>El aislamiento entre consultorios se aplica en la capa de datos y no en cada consulta: ante la duda, la operación falla en lugar de devolver información de más.</li>
+    <li>Agendar y sincronizar los turnos de los pacientes.</li>
+    <li>Enviar recordatorios de turnos y correos de bienvenida.</li>
+    <li>
+      Registrar y dar seguimiento a tu evolución nutricional para el control
+      profesional.
+    </li>
+    <li>Elaborar y ajustar tus planes alimentarios.</li>
+    <li>Responder tus consultas y coordinar la atención.</li>
   </ul>
   <p>
-    Ningún sistema es infalible. Si ocurriera un incidente que afecte datos
-    personales, se notificará a los profesionales afectados y a la autoridad de
-    control cuando corresponda.
+    No utilizamos tu información para fines distintos a los aquí descriptos, ni
+    para publicidad de terceros.
   </p>
 
-  <h2 id="derechos">10. Derechos de las personas</h2>
+  <h2 id="google">7. Google Calendar y las API de Google</h2>
   <p>
-    Toda persona puede acceder a sus datos, pedir que se rectifiquen los
-    inexactos, solicitar su supresión y oponerse a determinados tratamientos.
+    El acceso a Google Calendar se utiliza <strong>exclusivamente</strong> para
+    agendar y sincronizar los turnos de los pacientes, solicitando solo los
+    permisos mínimos necesarios para esa funcionalidad. Nuestra aplicación
+    únicamente lee y escribe eventos relacionados con las consultas
+    nutricionales: no extraemos, leemos ni almacenamos en nuestras bases de
+    datos información de otros eventos personales de tu Google Calendar.
+  </p>
+  <p>
+    Los datos obtenidos desde Google Calendar son de uso exclusivo para el
+    agendamiento y <strong>no son compartidos, transferidos ni procesados</strong>
+    por OpenAI, Anthropic, Meta, ni ningún otro proveedor de terceros. Las
+    integraciones de inteligencia artificial y mensajería descriptas en los
+    puntos 8 y 10 operan de forma completamente aislada de los datos de Google:
+    no reciben ni acceden en ningún momento a la información de tu calendario.
+  </p>
+  <p>
+    El uso de la información recibida de las API de Google por parte de esta
+    aplicación cumplirá con la
+    <a
+      href="https://developers.google.com/terms/api-services-user-data-policy"
+      target="_blank"
+      rel="noopener noreferrer"> Política de datos del usuario de los servicios API de Google</a
+    >, incluidos los requisitos de uso limitado.
+  </p>
+  <p>
+    Podés revisar o revocar en cualquier momento el acceso otorgado a esta
+    aplicación desde
+    <a
+      href="https://myaccount.google.com/permissions"
+      target="_blank"
+      rel="noopener noreferrer"> myaccount.google.com/permissions</a
+    >.
+  </p>
+
+  <h2 id="ia">8. Inteligencia artificial</h2>
+  <p>
+    La plataforma de gestión de pacientes puede utilizar modelos de inteligencia
+    artificial de OpenAI (GPT) y/o Anthropic (Claude) como asistencia para el
+    profesional. A estos proveedores solo se envían
+    <strong>datos anonimizados o agregados</strong>: nunca información que te
+    identifique directamente, como tu nombre, contacto u otros datos personales
+    o de salud asociados a vos. Estos servicios procesan la información según
+    sus propias políticas:
   </p>
   <ul>
     <li>
-      <strong>Si sos paciente:</strong> el pedido va a tu nutricionista, que es
-      quien decide sobre tu ficha. Desde el portal ya podés ver buena parte de
-      lo que hay cargado.
+      <a
+        href="https://openai.com/policies/privacy-policy"
+        target="_blank"
+        rel="noopener noreferrer">Política de privacidad de OpenAI</a
+      >
     </li>
     <li>
-      <strong>Si sos profesional:</strong> escribí a
-      <a href="mailto:hola@nutrioffice.app">hola@nutrioffice.app</a>. Los
-      listados de pacientes y turnos se exportan a Excel desde la propia
-      aplicación, y la baja de la cuenta se puede pedir en cualquier momento.
+      <a
+        href="https://www.anthropic.com/legal/privacy"
+        target="_blank"
+        rel="noopener noreferrer">Política de privacidad de Anthropic</a
+      >
     </li>
   </ul>
+
+  <h2 id="correos">9. Envío de correos electrónicos</h2>
   <p>
-    En Argentina, la autoridad de control es la Agencia de Acceso a la
-    Información Pública, ante la que se puede presentar un reclamo si un pedido
-    no fue atendido.
+    Para enviarte recordatorios de turnos y correos de bienvenida usamos un
+    proveedor de correo transaccional (actualmente Resend, o un servicio
+    equivalente), que procesa tu dirección de email y el contenido del mensaje
+    únicamente para hacerte llegar esas comunicaciones.
   </p>
 
-  <h2 id="cookies">11. Cookies y almacenamiento local</h2>
+  <h2 id="whatsapp">10. WhatsApp</h2>
   <p>
-    Este sitio de presentación no usa cookies de seguimiento ni de publicidad.
-    Guarda una única preferencia en el navegador —el tema claro u oscuro— que no
-    sale del dispositivo.
+    Usamos WhatsApp de dos maneras: en el sitio público, mediante un enlace
+    directo que abre WhatsApp con un mensaje precargado, sin que el sitio envíe
+    ni guarde esa información; y en la plataforma de gestión de pacientes,
+    mediante la API de WhatsApp Business de Meta, que permite enviar mensajes
+    automáticos como recordatorios de turnos. En este último caso, tu número de
+    teléfono y el contenido de esos mensajes son procesados por Meta como
+    proveedor de la infraestructura de mensajería.
   </p>
-  <p>La aplicación sí usa cookies, todas necesarias para funcionar:</p>
+
+  <h2 id="terceros">11. Compartición con terceros</h2>
+  <p>
+    <strong>No vendemos tu información.</strong> Solo la compartimos con los
+    proveedores estrictamente necesarios para el funcionamiento del sitio y de
+    la plataforma de gestión de pacientes, cada uno bajo su propia política de
+    privacidad:
+  </p>
   <ul>
-    <li><strong>De sesión:</strong> mantienen la sesión iniciada y se borran al cerrarla.</li>
-    <li><strong>De renovación:</strong> permiten seguir conectado sin volver a escribir la contraseña, y se revocan al salir.</li>
+    <li>Google (Calendar)</li>
+    <li>WhatsApp / Meta</li>
+    <li>OpenAI</li>
+    <li>Anthropic</li>
+    <li>Proveedor de correo transaccional (Resend)</li>
   </ul>
 
-  <h2 id="menores">12. Menores de edad</h2>
+  <h2 id="almacenamiento">12. Almacenamiento, conservación y transferencias internacionales</h2>
   <p>
-    Cuando el paciente es menor de edad, el acceso al portal y el consentimiento
-    para el tratamiento de sus datos corresponden a su madre, padre o
-    representante legal, en los términos que el profesional acuerde con la
-    familia.
+    Los datos de pacientes cargados en la plataforma de gestión (contacto,
+    salud, planes y turnos) se almacenan en una base de datos alojada en un
+    servidor ubicado en Argentina, de uso exclusivo del profesional. Se
+    conservan mientras dure la relación profesional-paciente, y de forma
+    indefinida en tanto no solicites su eliminación (ver punto 14).
+  </p>
+  <p>
+    Algunos proveedores utilizados (Google, OpenAI, Anthropic, Meta/WhatsApp y
+    el proveedor de correo transaccional) tienen sede o servidores en el
+    exterior, principalmente en Estados Unidos, por lo que su uso puede implicar
+    una <strong>transferencia internacional de datos</strong>. En cada caso solo
+    se comparte la información estrictamente necesaria para esa finalidad
+    —datos de contacto para recordatorios, o datos anonimizados en el caso de la
+    inteligencia artificial— y esos proveedores están sujetos a sus propios
+    estándares de seguridad y confidencialidad.
   </p>
 
-  <h2 id="cambios">13. Cambios en esta política</h2>
+  <h2 id="seguridad">13. Seguridad</h2>
   <p>
-    Si cambia algo relevante, se actualiza la fecha del encabezado y se avisa a
-    los profesionales con cuenta activa por correo electrónico, con antelación
-    razonable a la entrada en vigencia.
+    El sitio y la plataforma de gestión se sirven mediante conexión segura
+    (HTTPS). El acceso a Google Calendar se realiza mediante los mecanismos
+    oficiales de autorización de Google (OAuth), sin que se almacene tu
+    contraseña de Google en ningún momento. El acceso a los datos de pacientes
+    en el CRM está restringido al profesional.
   </p>
 
-  <h2 id="contacto">14. Contacto</h2>
+  <h2 id="derechos">14. Tus derechos</h2>
   <p>
-    Por cualquier duda sobre esta política o sobre el tratamiento de datos:
-    <a href="mailto:hola@nutrioffice.app">hola@nutrioffice.app</a>.
+    De acuerdo con la Ley 25.326, podés ejercer en cualquier momento tus
+    derechos de <strong>acceso, rectificación, actualización y supresión</strong>
+    de tus datos, revocar el acceso otorgado a Google Calendar, y pedir dejar de
+    recibir recordatorios automáticos por WhatsApp o email. Para ejercerlos,
+    escribinos a los datos de contacto del punto 16.
   </p>
+
+  <h2 id="otros">15. Otros puntos</h2>
+  <h3>Cookies</h3>
+  <p>
+    Actualmente el sitio no utiliza cookies de analítica ni de publicidad. Si
+    esto cambia, esta política será actualizada.
+  </p>
+  <h3>Menores de edad</h3>
+  <p>
+    Si un menor requiere atención nutricional, la reserva y coordinación del
+    turno debe realizarla su madre, padre o tutor.
+  </p>
+  <h3>Cambios en esta política</h3>
+  <p>
+    Puede actualizarse periódicamente; cualquier cambio se publicará en esta
+    misma página junto con la fecha de última actualización.
+  </p>
+
+  <h2 id="contacto">16. Contacto</h2>
+  <p>
+    Ante cualquier duda sobre esta Política de Privacidad o sobre el tratamiento
+    de tus datos, podés contactarnos:
+  </p>
+  <ul>
+    <li>
+      Email: <a href="mailto:nicolasis14@hotmail.com">nicolasis14@hotmail.com</a>
+    </li>
+    <li>
+      Teléfono: <a href="tel:+5493815370052">+54 9 381 537 0052</a>
+    </li>
+  </ul>
 </Texto>

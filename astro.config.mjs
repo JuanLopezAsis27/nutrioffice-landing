@@ -9,8 +9,9 @@ import { defineConfig } from "astro/config";
  * el framework; el resto del proyecto sigue en castellano.
  */
 export default defineConfig({
-  // Se usa para el sitemap y las URL absolutas de las metaetiquetas sociales.
-  site: "https://nutrioffice.app",
+  // De acá salen la URL canónica de cada página y las de las metaetiquetas
+  // sociales. La app vive aparte, en app.nutrioffice.com.ar.
+  site: "https://nutrioffice.com.ar",
   // Sin `build.format`: cada página queda como `privacidad/index.html`, que es
   // lo que cualquier servidor estático resuelve sin reescrituras ni reglas.
   devToolbar: { enabled: false },
