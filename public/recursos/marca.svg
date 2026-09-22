@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NutriOffice">
+  <title>NutriOffice</title>
+  <!-- El método del plato: media vuelta de verduras y dos cuartos. -->
+  <path d="M32 10a22 22 0 0 1 0 44Z" fill="#F4535E"/>
+  <path d="M32 32V10A22 22 0 0 0 10 32Z" fill="#F4535E" opacity=".32"/>
+  <circle cx="32" cy="32" r="22" fill="none" stroke="#F4535E" stroke-width="5"/>
+  <path d="M11 32h21" fill="none" stroke="#F4535E" stroke-width="5" stroke-linecap="round"/>
+</svg>

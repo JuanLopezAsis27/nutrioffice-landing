@@ -1,0 +1,27 @@
+---
+import Icono from "./Icono.astro";
+
+interface Props {
+  icono: string;
+  titulo: string;
+  /** El ícono al costado del texto en lugar de arriba. */
+  compacta?: boolean;
+  /** Para la franja oscura, que invierte los colores. */
+  oscura?: boolean;
+}
+
+const { icono, titulo, compacta = false, oscura = false } = Astro.props;
+---
+
+<article
+  class:list={[
+    "tarjeta",
+    { compacta, "tarjeta-oscura": oscura },
+  ]}
+>
+  <span class="chip-icono"><Icono nombre={icono} /></span>
+  <div>
+    <h3>{titulo}</h3>
+    <p><slot /></p>
+  </div>
+</article>

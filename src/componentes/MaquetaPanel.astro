@@ -1,0 +1,91 @@
+---
+import VentanaApp from "./VentanaApp.astro";
+
+/**
+ * El dashboard: lo que se ve al entrar. Dibujado en HTML y no capturado en una
+ * imagen, así sigue el tema claro/oscuro del visitante, se ve nítido en
+ * cualquier pantalla y no envejece con el próximo cambio de la app.
+ *
+ * Los nombres de los pacientes van como barras grises: es una ilustración, no
+ * una captura, y no tiene por qué inventar personas.
+ */
+---
+
+<VentanaApp ruta="nutrioffice.app/dashboard" activa={0}>
+  <div class="maqueta-tiles">
+    <div class="maqueta-tile"><strong>6</strong><span>Turnos hoy</span></div>
+    <div class="maqueta-tile"><strong>128</strong><span>Pacientes</span></div>
+    <div class="maqueta-tile"><strong>2</strong><span>Sin confirmar</span></div>
+    <div class="maqueta-tile"><strong>41</strong><span>Planes activos</span></div>
+  </div>
+
+  <div class="maqueta-tarjeta maqueta-grafico">
+    <span class="maqueta-titulo">Evolución del peso</span>
+    <svg viewBox="0 0 320 90" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="degradado-area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F4535E" stop-opacity=".28"></stop>
+          <stop offset="100%" stop-color="#F4535E" stop-opacity="0"></stop>
+        </linearGradient>
+      </defs>
+      <path
+        d="M0 22 L53 30 L107 26 L160 44 L213 52 L267 62 L320 70 L320 90 L0 90 Z"
+        fill="url(#degradado-area)"></path>
+      <path
+        class="linea-animada"
+        d="M0 22 L53 30 L107 26 L160 44 L213 52 L267 62 L320 70"
+        fill="none"
+        stroke="#F4535E"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </div>
+
+  <div class="maqueta-tarjeta maqueta-lista">
+    <span class="maqueta-titulo">Agenda de hoy</span>
+    <div class="maqueta-fila">
+      <span class="maqueta-hora">09:00</span>
+      <span class="maqueta-nombre"></span>
+      <span class="pastilla verde">Confirmado</span>
+    </div>
+    <div class="maqueta-fila">
+      <span class="maqueta-hora">10:30</span>
+      <span class="maqueta-nombre corto"></span>
+      <span class="pastilla ambar">Pendiente</span>
+    </div>
+    <div class="maqueta-fila">
+      <span class="maqueta-hora">11:15</span>
+      <span class="maqueta-nombre"></span>
+      <span class="pastilla verde">Confirmado</span>
+    </div>
+  </div>
+</VentanaApp>
+
+<style>
+  /* La línea del gráfico se dibuja sola al entrar en pantalla. El largo exacto
+     lo mide el guion con getTotalLength(): ponerlo a mano sería adivinar. */
+  .linea-animada {
+    stroke-dasharray: var(--largo, 0);
+    stroke-dashoffset: var(--largo, 0);
+  }
+
+  :global(.visible) .linea-animada,
+  :global([data-activa]) .linea-animada {
+    animation: dibujar 1.4s 0.2s ease-out forwards;
+  }
+
+  @keyframes dibujar {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .linea-animada {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+      animation: none;
+    }
+  }
+</style>

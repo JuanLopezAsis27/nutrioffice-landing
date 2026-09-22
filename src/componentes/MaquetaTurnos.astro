@@ -1,0 +1,190 @@
+---
+import VentanaApp from "./VentanaApp.astro";
+
+const dias = ["Lun", "Mar", "Mié", "Jue", "Vie"];
+const horas = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"];
+
+/** Cada turno ocupa dos filas de media hora: la duración la define la sede. */
+const turnos = [
+  { dia: 0, fila: 0, estado: "confirmado" },
+  { dia: 0, fila: 3, estado: "pendiente" },
+  { dia: 1, fila: 1, estado: "confirmado" },
+  { dia: 1, fila: 5, estado: "confirmado" },
+  { dia: 2, fila: 0, estado: "confirmado" },
+  { dia: 2, fila: 4, estado: "pendiente" },
+  { dia: 3, fila: 2, estado: "confirmado" },
+  { dia: 4, fila: 1, estado: "confirmado" },
+  { dia: 4, fila: 5, estado: "cancelado" },
+];
+---
+
+<VentanaApp ruta="nutrioffice.app/dashboard/turnos" activa={2}>
+  <div class="cabecera-vista">
+    <span class="maqueta-titulo">Semana del 21 al 25</span>
+    <div class="sedes">
+      <span class="sede activa">Consultorio centro</span>
+      <span class="sede">Sede norte</span>
+    </div>
+  </div>
+
+  <div class="calendario">
+    <span class="esquina"></span>
+    {dias.map((dia) => <span class="dia">{dia}</span>)}
+
+    {
+      horas.map((hora, fila) => (
+        <>
+          <span class="hora" style={`grid-row: ${fila + 2}`}>{hora}</span>
+          {dias.map((_, dia) => (
+            <span class="celda" style={`grid-column: ${dia + 2}; grid-row: ${fila + 2}`} />
+          ))}
+        </>
+      ))
+    }
+
+    {
+      turnos.map((turno) => (
+        <span
+          class:list={["turno", turno.estado]}
+          style={`grid-column: ${turno.dia + 2}; grid-row: ${turno.fila + 2} / span 2`}
+        >
+          <b />
+          <i />
+        </span>
+      ))
+    }
+  </div>
+</VentanaApp>
+
+<style>
+  .cabecera-vista {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .sedes {
+    display: flex;
+    gap: 5px;
+  }
+
+  .sede {
+    padding: 3px 9px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 999px;
+    background: hsl(var(--tarjeta));
+    font-size: 9.5px;
+    font-weight: 600;
+    color: hsl(var(--apagado));
+  }
+
+  .sede.activa {
+    border-color: hsl(var(--primario) / 0.4);
+    background: hsl(var(--acento));
+    color: hsl(var(--acento-texto));
+  }
+
+  .calendario {
+    display: grid;
+    grid-template-columns: 34px repeat(5, 1fr);
+    grid-auto-rows: 26px;
+    gap: 2px;
+    padding: 10px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 12px;
+    background: hsl(var(--tarjeta));
+  }
+
+  .esquina {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .dia,
+  .hora {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: hsl(var(--apagado));
+  }
+
+  .dia {
+    grid-row: 1;
+    align-self: center;
+    text-align: center;
+  }
+
+  .hora {
+    grid-column: 1;
+    align-self: start;
+  }
+
+  .celda {
+    border-radius: 5px;
+    background: hsl(var(--suave) / 0.45);
+  }
+
+  /* El turno se dibuja encima de las celdas que ocupa. */
+  .turno {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 7px;
+    border-left: 3px solid hsl(var(--primario));
+    border-radius: 5px;
+    background: hsl(var(--acento));
+    animation: entrar 0.4s ease-out backwards;
+  }
+
+  .turno b {
+    height: 4px;
+    width: 72%;
+    border-radius: 3px;
+    background: hsl(var(--primario) / 0.65);
+  }
+
+  .turno i {
+    height: 3px;
+    width: 46%;
+    border-radius: 3px;
+    background: hsl(var(--primario) / 0.35);
+  }
+
+  .turno.pendiente {
+    border-left-color: hsl(var(--ambar-texto));
+    background: hsl(var(--ambar-fondo) / 0.55);
+  }
+
+  .turno.pendiente b {
+    background: hsl(var(--ambar-texto) / 0.7);
+  }
+
+  .turno.pendiente i {
+    background: hsl(var(--ambar-texto) / 0.35);
+  }
+
+  .turno.cancelado {
+    border-left-color: hsl(var(--apagado));
+    background: hsl(var(--suave));
+    opacity: 0.65;
+  }
+
+  .turno.cancelado b,
+  .turno.cancelado i {
+    background: hsl(var(--apagado) / 0.45);
+  }
+
+  @keyframes entrar {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .turno {
+      animation: none;
+    }
+  }
+</style>

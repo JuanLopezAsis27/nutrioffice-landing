@@ -1,0 +1,209 @@
+---
+import Icono from "../componentes/Icono.astro";
+import Texto from "../plantillas/Texto.astro";
+
+const indice = [
+  { id: "objeto", texto: "Qué es este acuerdo" },
+  { id: "cuenta", texto: "La cuenta y su uso" },
+  { id: "responsabilidad", texto: "La responsabilidad profesional es tuya" },
+  { id: "tus-datos", texto: "Tus datos son tuyos" },
+  { id: "ia", texto: "Las funciones con inteligencia artificial" },
+  { id: "integraciones", texto: "Servicios de terceros" },
+  { id: "disponibilidad", texto: "Disponibilidad y respaldos" },
+  { id: "precios", texto: "Precios y facturación" },
+  { id: "baja", texto: "Baja y exportación" },
+  { id: "limites", texto: "Límites de responsabilidad" },
+  { id: "cambios", texto: "Cambios en el servicio" },
+  { id: "ley", texto: "Ley aplicable" },
+];
+---
+
+<Texto
+  titulo="Términos del servicio — NutriOffice"
+  descripcion="Las condiciones de uso de NutriOffice: la cuenta, la responsabilidad profesional, los datos, las integraciones y la baja del servicio."
+  encabezado="Términos del servicio"
+  entrada="Las reglas de uso de NutriOffice, escritas para que se entiendan: qué pone cada parte, qué esperar del servicio y qué pasa si alguien se quiere ir."
+  actualizado="22 de septiembre de 2026"
+  indice={indice}
+>
+  <div class="aviso">
+    <Icono nombre="circle-help" />
+    <span>
+      <strong>Modelo para completar y revisar.</strong> Los tramos entre
+      corchetes hay que reemplazarlos por los datos reales, y conviene que un
+      profesional del derecho revise el texto antes de publicarlo. Una vez
+      revisado, borrá este recuadro del archivo
+      <code>src/pages/terminos.astro</code>.
+    </span>
+  </div>
+
+  <h2 id="objeto">1. Qué es este acuerdo</h2>
+  <p>
+    Estos términos regulan el uso de NutriOffice, operado por
+    <span class="completar">[razón social]</span>, por parte de los
+    profesionales que contratan el servicio y de los pacientes que acceden al
+    portal.
+  </p>
+  <p>
+    Usar la plataforma implica aceptarlos. Si se contrata en nombre de una
+    institución, quien acepta declara tener facultades para obligarla.
+  </p>
+
+  <h2 id="cuenta">2. La cuenta y su uso</h2>
+  <ul>
+    <li>
+      La cuenta es personal del profesional matriculado o de la institución que
+      la contrata. Las credenciales no se comparten.
+    </li>
+    <li>
+      Cada profesional es responsable de lo que ocurra bajo su cuenta y de las
+      cuentas de paciente que dé de alta.
+    </li>
+    <li>
+      No se puede usar la plataforma para almacenar contenido ilícito, ni para
+      enviar comunicaciones no solicitadas a personas que no sean pacientes del
+      consultorio.
+    </li>
+    <li>
+      Está prohibido intentar acceder a datos de otro consultorio, sondear las
+      defensas del sistema o revender el servicio sin autorización.
+    </li>
+  </ul>
+
+  <h2 id="responsabilidad">3. La responsabilidad profesional es tuya</h2>
+  <p>
+    Esto es lo más importante de todo el documento:
+    <strong
+      >NutriOffice es una herramienta de registro y gestión, no un criterio
+      clínico</strong
+    >. No prescribe, no diagnostica y no reemplaza el juicio del profesional.
+  </p>
+  <ul>
+    <li>
+      Los cálculos —composición corporal, macros, metabolismo, proyecciones— se
+      hacen con las ecuaciones declaradas en cada caso y a partir de los datos
+      que se cargan. Verificarlos es parte del trabajo profesional.
+    </li>
+    <li>
+      Lo que la plataforma muestre al paciente es lo que el profesional decidió
+      publicarle.
+    </li>
+    <li>
+      La relación clínica, el consentimiento informado y el cumplimiento de las
+      normas de la profesión corren por cuenta del profesional.
+    </li>
+  </ul>
+
+  <h2 id="tus-datos">4. Tus datos son tuyos</h2>
+  <p>
+    Todo lo que se carga —pacientes, planes, recetas, mediciones, archivos—
+    sigue siendo propiedad del profesional o de la institución. NutriOffice
+    obtiene solo el permiso técnico necesario para alojarlo, mostrarlo y
+    procesarlo con el fin de prestar el servicio.
+  </p>
+  <p>
+    Ese contenido no se usa con fines publicitarios, no se cede a terceros y no
+    se emplea para entrenar modelos. El tratamiento de datos personales está
+    detallado en la <a href="/privacidad/">política de privacidad</a>.
+  </p>
+
+  <h2 id="ia">5. Las funciones con inteligencia artificial</h2>
+  <ul>
+    <li>Son opcionales y se activan con una clave propia del consultorio.</li>
+    <li>
+      Lo que producen es un <strong>borrador para revisar</strong>: una lectura
+      de documento, una transcripción o un resumen que el profesional confirma
+      antes de que se guarde.
+    </li>
+    <li>
+      Un modelo de lenguaje puede equivocarse. Dar por buena una salida sin
+      revisarla es responsabilidad de quien la confirma.
+    </li>
+    <li>
+      El costo del proveedor de IA lo asume quien aporta la clave, según las
+      condiciones de ese proveedor.
+    </li>
+  </ul>
+
+  <h2 id="integraciones">6. Servicios de terceros</h2>
+  <p>
+    WhatsApp, Google, los proveedores de inteligencia artificial y los
+    dispositivos de salud se rigen por sus propios términos. Sus cambios de
+    política, sus interrupciones y sus costos están fuera del control de
+    NutriOffice, y la plataforma sigue funcionando sin ninguno de ellos.
+  </p>
+
+  <h2 id="disponibilidad">7. Disponibilidad y respaldos</h2>
+  <p>
+    El objetivo de disponibilidad es de <span class="completar">[porcentaje]</span>
+    mensual, sin contar las ventanas de mantenimiento, que se avisan con
+    anticipación cuando son programadas.
+  </p>
+  <p>
+    Se realizan copias de respaldo <span class="completar">[frecuencia]</span>,
+    conservadas durante <span class="completar">[plazo]</span>. Aun así,
+    mantener una exportación propia de la información crítica es una buena
+    práctica que se recomienda.
+  </p>
+
+  <h2 id="precios">8. Precios y facturación</h2>
+  <p>
+    Los planes y sus precios son los publicados al momento de la contratación.
+    El servicio se factura <span class="completar">[periodicidad]</span> y se
+    puede cancelar antes de la renovación. Los cambios de precio se avisan con
+    <span class="completar">[plazo]</span> de anticipación y rigen a partir del
+    período siguiente.
+  </p>
+
+  <h2 id="baja">9. Baja y exportación</h2>
+  <ul>
+    <li>La cuenta se puede dar de baja cuando se quiera, sin explicaciones.</li>
+    <li>
+      Los listados de pacientes y de turnos se exportan a Excel desde la propia
+      aplicación, y los archivos cargados se pueden descargar.
+    </li>
+    <li>
+      Tras la baja, los datos quedan disponibles durante
+      <span class="completar">[plazo]</span> por si hiciera falta recuperarlos,
+      y después se eliminan.
+    </li>
+    <li>
+      La cuenta puede suspenderse por falta de pago o por un uso que viole estos
+      términos, siempre con aviso previo salvo que haya un riesgo inmediato para
+      el servicio o para terceros.
+    </li>
+  </ul>
+
+  <h2 id="limites">10. Límites de responsabilidad</h2>
+  <p>
+    El servicio se presta tal como está, con el compromiso de sostenerlo y
+    mejorarlo, pero sin garantía de que sea ininterrumpido o libre de errores.
+  </p>
+  <p>
+    En la medida en que la ley lo permita, la responsabilidad total de
+    <span class="completar">[razón social]</span> frente a un reclamo se limita
+    a lo abonado por el servicio en los <span class="completar">[plazo]</span>
+    meses anteriores al hecho. No se responde por decisiones clínicas, por el
+    lucro cesante ni por daños indirectos.
+  </p>
+
+  <h2 id="cambios">11. Cambios en el servicio</h2>
+  <p>
+    La plataforma evoluciona: se agregan funciones y, ocasionalmente, se retiran
+    otras. Si un cambio afecta de manera relevante el uso habitual, se avisa por
+    correo electrónico con antelación razonable. Los cambios a estos términos se
+    publican acá con su nueva fecha.
+  </p>
+
+  <h2 id="ley">12. Ley aplicable</h2>
+  <p>
+    Este acuerdo se rige por las leyes de
+    <span class="completar">[jurisdicción]</span>, y cualquier controversia se
+    somete a los tribunales de <span class="completar">[ciudad]</span>, con
+    renuncia a cualquier otro fuero.
+  </p>
+  <p>
+    Dudas sobre estos términos:
+    <a href="mailto:hola@nutrioffice.app">hola@nutrioffice.app</a>.
+  </p>
+</Texto>

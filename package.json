@@ -1,0 +1,16 @@
+{
+  "name": "pagina-presentacion",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Sitio de presentación de NutriOffice",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "astro": "^7.3.3"
+  }
+}

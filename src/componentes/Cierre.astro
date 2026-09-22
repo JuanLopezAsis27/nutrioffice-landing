@@ -1,0 +1,46 @@
+---
+import Icono from "./Icono.astro";
+---
+
+<section class="cierre" id="contacto">
+  <div class="cierre-fondo patron-puntos" aria-hidden="true"></div>
+
+  <div class="contenedor cierre-caja revelar">
+    <h2>¿Lo vemos funcionando con tus datos?</h2>
+    <p>
+      Te mostramos el panel, el portal del paciente y cómo migrar tu planilla de
+      antropometrías en una llamada de treinta minutos.
+    </p>
+
+    <div class="cierre-botones">
+      <a class="boton boton-primario boton-grande" href="mailto:hola@nutrioffice.app">
+        Escribinos
+        <Icono nombre="arrow-right" />
+      </a>
+      <a class="boton boton-borde boton-grande" href="#pantallas">
+        Volver a las pantallas
+      </a>
+    </div>
+
+    <p class="cierre-nota">
+      <Icono nombre="clock" />
+      Respondemos dentro del día hábil.
+    </p>
+  </div>
+</section>
+
+<style>
+  .cierre-nota {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 22px;
+    color: hsl(0 0% 100% / 0.8);
+    font-size: 14px;
+  }
+
+  .cierre-nota :global(.ico) {
+    width: 15px;
+    height: 15px;
+  }
+</style>

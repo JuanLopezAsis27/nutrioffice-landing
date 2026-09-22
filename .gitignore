@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+
+# Windows / editores
+Thumbs.db
+.DS_Store

@@ -1,0 +1,142 @@
+---
+import Icono from "../componentes/Icono.astro";
+import Base from "../plantillas/Base.astro";
+
+const atajos = [
+  { href: "/#modulos", icono: "layout-dashboard", texto: "Las funciones" },
+  { href: "/#pantallas", icono: "monitor", texto: "Las pantallas" },
+  { href: "/#preguntas", icono: "circle-help", texto: "Preguntas frecuentes" },
+  { href: "/#contacto", icono: "mail", texto: "Escribirnos" },
+];
+---
+
+<Base
+  titulo="Página no encontrada — NutriOffice"
+  descripcion="La dirección que buscabas no existe o cambió de lugar."
+  compacta
+>
+  <section class="perdida">
+    <div class="fondo patron-puntos" aria-hidden="true"></div>
+
+    <div class="contenedor caja">
+      <span class="numero" aria-hidden="true">404</span>
+      <h1>Esta dirección no existe</h1>
+      <p>
+        O cambió de lugar. No es nada que hayas hecho mal: pasa cuando un enlace
+        queda viejo.
+      </p>
+
+      <div class="atajos">
+        {
+          atajos.map((atajo) => (
+            <a href={atajo.href}>
+              <Icono nombre={atajo.icono} />
+              {atajo.texto}
+            </a>
+          ))
+        }
+      </div>
+
+      <a class="boton boton-primario boton-grande" href="/">
+        Ir al inicio
+        <Icono nombre="arrow-right" />
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .perdida {
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* Alto de la ventana menos la cabecera: el pie queda justo abajo del
+       pliegue en vez de flotar en el medio. */
+    min-height: calc(100vh - 74px);
+    padding: 60px 0;
+    overflow: hidden;
+  }
+
+  .fondo {
+    position: absolute;
+    inset: 0;
+    mask-image: radial-gradient(60% 60% at 50% 40%, #000, transparent 72%);
+    -webkit-mask-image: radial-gradient(
+      60% 60% at 50% 40%,
+      #000,
+      transparent 72%
+    );
+    pointer-events: none;
+  }
+
+  .caja {
+    position: relative;
+    max-width: 620px;
+    text-align: center;
+  }
+
+  .numero {
+    display: block;
+    font-size: clamp(5rem, 16vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primario)),
+      hsl(var(--primario) / 0.25)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  h1 {
+    margin: 10px 0 12px;
+    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+  }
+
+  .caja > p {
+    max-width: 44ch;
+    margin: 0 auto;
+    color: hsl(var(--apagado));
+  }
+
+  .atajos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px 0 26px;
+  }
+
+  .atajos a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 999px;
+    background: hsl(var(--tarjeta));
+    color: hsl(var(--apagado));
+    font-size: 14.5px;
+    font-weight: 600;
+    box-shadow: var(--sombra-chica);
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .atajos a:hover {
+    color: hsl(var(--texto));
+    border-color: hsl(var(--primario) / 0.45);
+    transform: translateY(-2px);
+  }
+
+  .atajos :global(.ico) {
+    width: 16px;
+    height: 16px;
+    color: hsl(var(--primario));
+  }
+</style>

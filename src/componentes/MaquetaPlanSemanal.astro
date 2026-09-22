@@ -1,0 +1,193 @@
+---
+import VentanaApp from "./VentanaApp.astro";
+
+const dias = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+
+const franjas = [
+  {
+    nombre: "Desayuno",
+    comidas: ["Avena y fruta", "Tostadas", "Yogur y nueces", "Avena y fruta", "Tostadas", "Panqueques", "Yogur y nueces"],
+  },
+  {
+    nombre: "Almuerzo",
+    comidas: ["Pollo y arroz", "Ensalada tibia", "Wrap de atún", "Pollo y arroz", "Pescado", "Guiso de lentejas", "Milanesa al horno"],
+  },
+  {
+    nombre: "Merienda",
+    comidas: ["Fruta", "Licuado", "Fruta", "Barrita casera", "Licuado", "Fruta", "Tostadas"],
+  },
+  {
+    nombre: "Cena",
+    comidas: ["Tortilla", "Sopa y pollo", "Salteado", "Tortilla", "Revuelto", "Pizza casera", "Sopa"],
+  },
+];
+
+/** El total del día suma la comida principal de cada franja, no las alternativas. */
+const totales = [1840, 1790, 1880, 1820, 1860, 2010, 1770];
+const meta = 1900;
+---
+
+<VentanaApp ruta="nutrioffice.app/dashboard/planes/semanal" activa={4}>
+  <div class="cabecera-vista">
+    <span class="maqueta-titulo">Semana tipo · descenso</span>
+    <span class="meta">Meta {meta} kcal</span>
+  </div>
+
+  <div class="semana">
+    <span class="esquina"></span>
+    {dias.map((dia) => <span class="dia">{dia}</span>)}
+
+    {
+      franjas.map((franja) => (
+        <>
+          <span class="franja">{franja.nombre}</span>
+          {franja.comidas.map((comida, indice) => (
+            <span class:list={["comida", { alterna: indice % 3 === 1 }]}>
+              {comida}
+            </span>
+          ))}
+        </>
+      ))
+    }
+
+    <span class="franja total">Total</span>
+    {
+      totales.map((total) => (
+        <span class:list={["kcal", { excede: total > meta }]}>
+          {total}
+          <i style={`--proporcion: ${Math.min(100, Math.round((total / meta) * 100))}%`} />
+        </span>
+      ))
+    }
+  </div>
+</VentanaApp>
+
+<style>
+  .cabecera-vista {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .meta {
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: hsl(var(--acento));
+    color: hsl(var(--acento-texto));
+    font-size: 9.5px;
+    font-weight: 700;
+  }
+
+  .semana {
+    display: grid;
+    grid-template-columns: 46px repeat(7, 1fr);
+    gap: 3px;
+    padding: 10px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 12px;
+    background: hsl(var(--tarjeta));
+  }
+
+  .dia,
+  .franja {
+    font-size: 9px;
+    font-weight: 700;
+    color: hsl(var(--apagado));
+  }
+
+  .dia {
+    text-align: center;
+    padding-bottom: 2px;
+  }
+
+  .franja {
+    display: flex;
+    align-items: center;
+  }
+
+  .comida {
+    padding: 5px 6px;
+    border-radius: 6px;
+    background: hsl(var(--suave) / 0.5);
+    font-size: 8px;
+    line-height: 1.25;
+    color: hsl(var(--texto) / 0.75);
+    /* Dos líneas y corta: en la app el nombre entero está a un clic. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Las celdas con alternativa llevan la marca de que hay más de una opción. */
+  .comida.alterna {
+    position: relative;
+    background: hsl(var(--acento) / 0.7);
+  }
+
+  .comida.alterna::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: hsl(var(--primario));
+  }
+
+  .total {
+    color: hsl(var(--texto));
+  }
+
+  .kcal {
+    position: relative;
+    padding: 6px 4px 8px;
+    border-radius: 6px;
+    background: hsl(var(--tarjeta));
+    border: 1px solid hsl(var(--borde));
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .kcal i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: var(--proporcion, 0%);
+    background: hsl(var(--primario));
+  }
+
+  .kcal.excede {
+    color: hsl(var(--ambar-texto));
+  }
+
+  .kcal.excede i {
+    background: hsl(var(--ambar-texto));
+  }
+
+  @media (max-width: 640px) {
+    .semana {
+      grid-template-columns: 34px repeat(7, 1fr);
+      gap: 2px;
+      padding: 7px;
+    }
+
+    .comida {
+      font-size: 0;
+      padding: 8px 3px;
+    }
+
+    /* En el teléfono el texto no entra: quedan las celdas y las marcas, que es
+       lo que la maqueta tiene que transmitir. */
+    .comida.alterna::after {
+      top: 50%;
+      right: 50%;
+      transform: translate(50%, -50%);
+    }
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+import Icono from "./Icono.astro";
+
+const puntos = [
+  {
+    fuerte: "Fraccionamiento de Kerr en cinco masas",
+    resto:
+      "—anatómico, sobre el perfil ISAK completo— y ecuaciones de pliegues de dos componentes, cada una con su método declarado.",
+  },
+  {
+    fuerte: "Nada derivado se guarda.",
+    resto:
+      "Los índices, el somatotipo, el metabolismo y el porcentaje graso se recalculan en cada lectura desde las medidas crudas.",
+  },
+  {
+    fuerte: "Qué se mide lo decidís vos:",
+    resto:
+      "los dos protocolos se configuran por consultorio y podés sumar plantillas propias de campos.",
+  },
+  {
+    fuerte: "Un objetivo por paciente,",
+    resto:
+      "con el progreso medido desde que la meta existe y la proyección al ritmo actual.",
+  },
+];
+
+const masas = [46, 27, 14, 9];
+---
+
+<section class="seccion" id="composicion">
+  <div class="contenedor partida">
+    <div class="partida-texto revelar">
+      <p class="etiqueta-seccion">Seguimiento</p>
+      <h2>Composición corporal, con el rigor de la planilla</h2>
+      <p class="bajada-seccion">
+        La antropometría no es un campo de peso. Conviven los dos modelos y no se
+        mezclan, porque miden cosas distintas.
+      </p>
+
+      <ul class="lista-checks">
+        {
+          puntos.map((punto) => (
+            <li>
+              <Icono nombre="circle-check" />
+              <span>
+                <b>{punto.fuerte}</b> {punto.resto}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="partida-visual revelar" aria-hidden="true">
+      <div class="ficha">
+        <div class="ficha-encabezado">
+          <span class="chip-icono"><Icono nombre="activity" /></span>
+          <div>
+            <strong>Medición del 12/09</strong>
+            <span>Perfil ISAK completo · 5 componentes</span>
+          </div>
+        </div>
+
+        <div class="ficha-metricas">
+          <div><span>Masa muscular</span><strong>34,2 kg</strong></div>
+          <div><span>Masa adiposa</span><strong>19,7 kg</strong></div>
+          <div><span>Masa ósea</span><strong>10,1 kg</strong></div>
+          <div><span>Σ 6 pliegues</span><strong>88,4 mm</strong></div>
+        </div>
+
+        <div class="ficha-barras">
+          <span class="ficha-titulo">Distribución por masa</span>
+          {
+            masas.map((proporcion) => (
+              <div class="barra">
+                <i data-barra style={`--proporcion: ${proporcion}%`} />
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="ficha-pie">
+          <Icono nombre="target" />
+          Objetivo: 17 % de grasa · proyección a 11 semanas
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,159 @@
+---
+import Icono from "./Icono.astro";
+
+const preguntas = [
+  {
+    pregunta: "¿Los datos de mi consultorio están separados de los de otros profesionales?",
+    respuesta:
+      "Sí. Cada consultorio es un inquilino con sus propias filas, y el filtro no depende de que cada consulta se acuerde de aplicarlo: lo aplica una capa por debajo, igual para todas. Si por lo que fuera no hay consultorio en contexto, la consulta falla en lugar de devolver datos de más.",
+  },
+  {
+    pregunta: "¿Tengo que instalar algo?",
+    respuesta:
+      "No. Se usa en el navegador. Si querés, se instala como aplicación en Windows, Mac, Android o iPhone y queda con su ícono y su ventana propia, pero es el mismo sitio: no hay una versión que actualizar aparte.",
+  },
+  {
+    pregunta: "¿Puedo usarla sin la parte de inteligencia artificial?",
+    respuesta:
+      "Sí. La IA se activa cargando tu propia clave de Anthropic, OpenAI u OpenRouter. Sin clave, esas funciones quedan apagadas y el resto de la aplicación funciona igual. Nunca vas a ver un dato de demostración guardado en una ficha.",
+  },
+  {
+    pregunta: "¿Hace falta dar de alta la API oficial de WhatsApp?",
+    respuesta:
+      "No. Sin ella, los recordatorios abren el chat con el mensaje ya escrito y lo enviás vos desde tu teléfono. Con la Cloud API conectada, salen solos desde el número del consultorio y las respuestas del paciente aparecen en su ficha.",
+  },
+  {
+    pregunta: "¿Puedo traer mi planilla de antropometrías?",
+    respuesta:
+      "Sí. Se sube el Excel con una columna por consulta, la IA lo lee y arma una tabla de revisión. Nada se guarda hasta que confirmás, y una fecha repetida o una medida fuera de rango se informan sin tirar abajo las demás columnas.",
+  },
+  {
+    pregunta: "¿Sirve si atiendo en más de un lugar?",
+    respuesta:
+      "Sí. Los establecimientos son parte del modelo: cada sede lleva su agenda —días, horario, duración y paso del turno— y el turno guarda dónde se atendió. El paciente no queda atado a una sede.",
+  },
+  {
+    pregunta: "¿Y si algún día dejo de usarla?",
+    respuesta:
+      "Los listados de pacientes y de turnos se exportan a Excel desde la propia aplicación, y podés pedir la baja de la cuenta y el borrado de los datos cuando quieras. Lo que cargaste es tuyo.",
+  },
+];
+---
+
+<section class="seccion seccion-alterna" id="preguntas">
+  <div class="contenedor">
+    <header class="encabezado-seccion revelar">
+      <p class="etiqueta-seccion">Preguntas frecuentes</p>
+      <h2>Lo que suelen preguntar antes de empezar</h2>
+    </header>
+
+    <div class="lista-preguntas">
+      {
+        preguntas.map((item) => (
+          <details class="pregunta revelar">
+            <summary>
+              <span>{item.pregunta}</span>
+              <Icono nombre="chevron-down" clase="flecha" />
+            </summary>
+            <p class="respuesta">{item.respuesta}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .lista-preguntas {
+    display: grid;
+    gap: 12px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .pregunta {
+    border: 1px solid hsl(var(--borde));
+    border-radius: var(--radio-grande);
+    background: hsl(var(--tarjeta));
+    box-shadow: var(--sombra-chica);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .pregunta[open] {
+    border-color: hsl(var(--primario) / 0.35);
+    box-shadow: var(--sombra);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    font-size: 1.02rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  /* El triangulito propio del navegador sobra: la flecha es el ícono. */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary:hover {
+    color: hsl(var(--primario));
+  }
+
+  /* La flecha se dibuja dentro de <Icono>, así que el estilo acotado a este
+     componente no la alcanza sola: hay que entrar por un ancestro propio. */
+  summary :global(.flecha) {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    color: hsl(var(--primario));
+    transition: transform 0.25s ease;
+  }
+
+  .pregunta[open] :global(.flecha) {
+    transform: rotate(180deg);
+  }
+
+  .respuesta {
+    margin: 0;
+    padding: 0 24px 22px;
+    color: hsl(var(--apagado));
+    font-size: 15.5px;
+    animation: desplegar 0.3s ease-out;
+  }
+
+  @keyframes desplegar {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    summary {
+      padding: 16px 18px;
+      font-size: 0.97rem;
+    }
+
+    .respuesta {
+      padding: 0 18px 18px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .respuesta {
+      animation: none;
+    }
+
+    summary :global(.flecha) {
+      transition: none;
+    }
+  }
+</style>

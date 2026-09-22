@@ -1,0 +1,530 @@
+---
+import Icono from "../componentes/Icono.astro";
+import Base from "../plantillas/Base.astro";
+
+/**
+ * Página de trabajo para elegir el logo. No está enlazada desde ningún lado y
+ * lleva noindex: existe para mirar las propuestas en contexto —chiquitas, sobre
+ * los dos fondos, como ícono de app y al lado del nombre— y decidir.
+ *
+ * Cuando haya una elegida, esta página se puede borrar.
+ */
+const propuestas = [
+  {
+    id: "plato",
+    nombre: "El plato",
+    concepto: "El método del plato: mitad verduras, un cuarto proteína, un cuarto carbohidratos.",
+    porque:
+      "Es lo más específico de la profesión que entra en un círculo, y no se parece a ninguna otra app de salud. A 16 píxeles sigue leyéndose, que es donde la mayoría se cae.",
+    contra: "Puede leerse como un gráfico de torta si se mira muy rápido.",
+    recomendada: true,
+  },
+  {
+    id: "hoja",
+    nombre: "La hoja",
+    concepto: "Una hoja geométrica con su nervadura, hecha con dos arcos iguales.",
+    porque:
+      "Dice «nutrición» sin que nadie tenga que explicarlo, y la construcción con arcos la hace simétrica y prolija a cualquier tamaño.",
+    contra:
+      "Es la imagen más usada del rubro: hay miles de hojas verdes y coral dando vueltas.",
+  },
+  {
+    id: "pulso",
+    nombre: "El pulso",
+    concepto: "El latido dentro de un círculo. Es la evolución del ícono que ya tenías.",
+    porque:
+      "Es la que más dice «esto es una herramienta clínica» y la que mejor aguanta el tamaño chico, por el contraste del trazo.",
+    contra:
+      "El latido es el símbolo genérico de la salud entera: no distingue nutrición de un consultorio médico.",
+  },
+  {
+    id: "anillo",
+    nombre: "El anillo",
+    concepto: "Un anillo abierto con un punto en el centro: una meta y el progreso hacia ella.",
+    porque:
+      "Habla del seguimiento, que es lo que de verdad diferencia a la app. Geométrica y moderna.",
+    contra:
+      "Los anillos de actividad son territorio de Apple y de las apps de fitness; puede sonar a app de ejercicio.",
+  },
+  {
+    id: "monograma",
+    nombre: "El monograma",
+    concepto: "Una N con punto, tratada como logotipo.",
+    porque:
+      "Es la más neutra y la más «empresa de software»: no compite con la marca del profesional que la usa, y envejece bien.",
+    contra:
+      "No dice nada de nutrición por sí sola: necesita el nombre al lado para significar algo.",
+  },
+  {
+    id: "tazon",
+    nombre: "El tazón",
+    concepto: "Un bol con un brote saliendo.",
+    porque:
+      "Es la más cálida y cercana de todas, la que mejor funcionaría si algún día la marca le habla al paciente y no solo al profesional.",
+    contra:
+      "Es la que peor resiste el tamaño chico: a 16 píxeles el brote se empasta contra el bol.",
+  },
+];
+
+const tamanos = [48, 32, 24, 16];
+---
+
+<Base
+  titulo="Propuestas de marca — NutriOffice"
+  descripcion="Seis propuestas de logo para NutriOffice, en contexto."
+  compacta
+  oculta
+>
+  <section class="encabezado">
+    <div class="fondo patron-puntos" aria-hidden="true"></div>
+    <div class="contenedor">
+      <p class="etiqueta">
+        <Icono nombre="compass" />
+        Documento de trabajo
+      </p>
+      <h1>Seis propuestas de marca</h1>
+      <p class="entrada">
+        Todas usan el mismo coral de la app y están dibujadas con la misma
+        lógica: trazo parejo, formas geométricas y nada que se rompa al achicar.
+        Lo que cambia es qué dice cada una.
+      </p>
+      <p class="nota">
+        <Icono nombre="circle-help" />
+        Esta página no está enlazada desde el sitio y lleva <code>noindex</code>.
+        Cuando elijas una, se puede borrar.
+      </p>
+    </div>
+  </section>
+
+  <div class="contenedor listado">
+    {
+      propuestas.map((propuesta) => (
+        <article class:list={["propuesta", { destacada: propuesta.recomendada }]}>
+          <div class="muestra">
+            <img
+              src={`/recursos/marcas/${propuesta.id}.svg`}
+              alt={`Marca «${propuesta.nombre}»`}
+              width="96"
+              height="96"
+            />
+          </div>
+
+          <div class="texto">
+            <header>
+              <h2>{propuesta.nombre}</h2>
+              {propuesta.recomendada && (
+                <span class="pastilla-reco">
+                  <Icono nombre="circle-check" />
+                  La que recomiendo
+                </span>
+              )}
+            </header>
+
+            <p class="concepto">{propuesta.concepto}</p>
+
+            <dl>
+              <dt>A favor</dt>
+              <dd>{propuesta.porque}</dd>
+              <dt>En contra</dt>
+              <dd>{propuesta.contra}</dd>
+            </dl>
+
+            <div class="pruebas">
+              <div class="prueba">
+                <span class="rotulo">Tamaños</span>
+                <div class="fila-tamanos">
+                  {tamanos.map((lado) => (
+                    <img
+                      src={`/recursos/marcas/${propuesta.id}.svg`}
+                      alt=""
+                      width={lado}
+                      height={lado}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div class="prueba">
+                <span class="rotulo">Ícono de app</span>
+                <div class="cuadrado">
+                  <img
+                    src={`/recursos/marcas/${propuesta.id}.svg`}
+                    alt=""
+                    width="40"
+                    height="40"
+                    class="blanca"
+                  />
+                </div>
+              </div>
+
+              <div class="prueba">
+                <span class="rotulo">Sobre fondo claro</span>
+                <div class="claro">
+                  <img
+                    src={`/recursos/marcas/${propuesta.id}.svg`}
+                    alt=""
+                    width="40"
+                    height="40"
+                  />
+                </div>
+              </div>
+
+              <div class="prueba ancha">
+                <span class="rotulo">Con el nombre</span>
+                <div class="conjunto">
+                  <img
+                    src={`/recursos/marcas/${propuesta.id}.svg`}
+                    alt=""
+                    width="34"
+                    height="34"
+                  />
+                  <span>Nutri<b>Office</b></span>
+                </div>
+              </div>
+            </div>
+
+            <p class="archivo">
+              <code>public/recursos/marcas/{propuesta.id}.svg</code>
+            </p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <section class="contenedor cierre-marca">
+    <h2>Cómo se aplica la que elijas</h2>
+    <p>
+      La marca vigente es un solo archivo: <code>public/recursos/marca.svg</code>,
+      que usan la cabecera, el pie y el favicon. Cambiarla es copiar encima la
+      propuesta elegida:
+    </p>
+    <pre><code>cp public/recursos/marcas/hoja.svg public/recursos/marca.svg</code></pre>
+    <p>
+      Hoy está puesta <strong>el plato</strong>. Si preferís otra, decime cuál y
+      la dejo aplicada; si ninguna termina de cerrar, también puedo mezclarlas
+      —el bol de la sexta con la nervadura de la segunda, por ejemplo— o probar
+      otra idea.
+    </p>
+
+    <h2>Lo que falta para que sea una marca y no un dibujo</h2>
+    <ul>
+      <li>
+        <strong>El logotipo ya está resuelto:</strong> Figtree 700 con «Nutri»
+        en el color del texto y «Office» en coral. Es lo que se ve arriba a la
+        izquierda en todo el sitio.
+      </li>
+      <li>
+        <strong>Versión de una tinta</strong> para sellos, membretes y el PDF
+        del plan: la misma forma en negro o en blanco, sin coral.
+      </li>
+      <li>
+        <strong>PNG de 192 y 512 píxeles</strong> para reemplazar los íconos de
+        la PWA en la app (<code>nutricionista-app/public/iconos/</code>), que
+        hoy tienen el logo del consultorio y no el del producto.
+      </li>
+      <li>
+        <strong>Área de protección y tamaño mínimo:</strong> no bajar de 16 px
+        en pantalla ni de 8 mm impreso, y dejar alrededor un margen del ancho de
+        la mitad del símbolo.
+      </li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .encabezado {
+    position: relative;
+    padding: 56px 0 40px;
+    border-bottom: 1px solid hsl(var(--borde));
+    overflow: hidden;
+  }
+
+  .fondo {
+    position: absolute;
+    inset: 0;
+    mask-image: radial-gradient(80% 90% at 20% 0%, #000, transparent 70%);
+    -webkit-mask-image: radial-gradient(80% 90% at 20% 0%, #000, transparent 70%);
+    pointer-events: none;
+  }
+
+  .encabezado > .contenedor {
+    position: relative;
+  }
+
+  .encabezado h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin-bottom: 14px;
+  }
+
+  .entrada {
+    max-width: 62ch;
+    color: hsl(var(--apagado));
+    font-size: 1.05rem;
+  }
+
+  .nota {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 10px 16px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: var(--radio);
+    background: hsl(var(--suave) / 0.5);
+    color: hsl(var(--apagado));
+    font-size: 14px;
+  }
+
+  .nota :global(.ico) {
+    width: 16px;
+    height: 16px;
+    color: hsl(var(--primario));
+  }
+
+  .listado {
+    display: grid;
+    gap: 20px;
+    padding-top: 44px;
+    padding-bottom: 20px;
+  }
+
+  .propuesta {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 32px;
+    padding: 28px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: var(--radio-grande);
+    background: hsl(var(--tarjeta));
+    box-shadow: var(--sombra-chica);
+  }
+
+  .propuesta.destacada {
+    border-color: hsl(var(--primario) / 0.45);
+    box-shadow: var(--sombra);
+  }
+
+  .muestra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: var(--radio);
+    background: hsl(var(--fondo));
+  }
+
+  .texto header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .pastilla-reco {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: hsl(var(--acento));
+    color: hsl(var(--acento-texto));
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .pastilla-reco :global(.ico) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .concepto {
+    margin: 0 0 16px;
+    font-size: 1.02rem;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: 74px 1fr;
+    gap: 6px 14px;
+    margin: 0 0 22px;
+  }
+
+  dt {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: hsl(var(--primario));
+    padding-top: 2px;
+  }
+
+  dd {
+    margin: 0;
+    color: hsl(var(--apagado));
+    font-size: 15px;
+  }
+
+  .pruebas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    padding: 18px 0 14px;
+    border-top: 1px solid hsl(var(--borde));
+  }
+
+  .rotulo {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: hsl(var(--apagado));
+  }
+
+  .fila-tamanos {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    min-height: 48px;
+  }
+
+  .cuadrado {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    background: hsl(var(--primario));
+  }
+
+  /* La misma marca, en blanco: el archivo es uno solo y el filtro lo vuelve
+     blanco puro sin necesidad de una segunda versión. */
+  .blanca {
+    filter: brightness(0) invert(1);
+  }
+
+  .claro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    border: 1px solid hsl(240 6% 88%);
+    background: #f4f4f6;
+  }
+
+  .conjunto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .conjunto b {
+    color: hsl(var(--primario));
+    font-weight: 800;
+  }
+
+  .archivo {
+    margin: 0;
+    font-size: 13px;
+    color: hsl(var(--apagado));
+  }
+
+  code {
+    padding: 2px 6px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 6px;
+    background: hsl(var(--suave) / 0.7);
+    font-size: 0.9em;
+  }
+
+  .cierre-marca {
+    max-width: 760px;
+    margin: 0 auto;
+    padding-top: 36px;
+    padding-bottom: 80px;
+  }
+
+  .cierre-marca h2 {
+    margin: 32px 0 12px;
+    font-size: 1.35rem;
+  }
+
+  .cierre-marca p {
+    margin: 0 0 14px;
+    color: hsl(var(--apagado));
+    line-height: 1.7;
+  }
+
+  .cierre-marca strong {
+    color: hsl(var(--texto));
+  }
+
+  pre {
+    margin: 0 0 18px;
+    padding: 14px 16px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: var(--radio);
+    background: hsl(var(--suave) / 0.6);
+    overflow-x: auto;
+  }
+
+  pre code {
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 13.5px;
+  }
+
+  .cierre-marca ul {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cierre-marca li {
+    position: relative;
+    padding-left: 22px;
+    color: hsl(var(--apagado));
+    line-height: 1.7;
+  }
+
+  .cierre-marca li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: hsl(var(--primario));
+  }
+
+  @media (max-width: 760px) {
+    .propuesta {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding: 22px;
+    }
+
+    .muestra {
+      padding: 18px;
+    }
+  }
+</style>

@@ -1,0 +1,192 @@
+---
+import Icono from "./Icono.astro";
+import MaquetaAntropometria from "./MaquetaAntropometria.astro";
+import MaquetaMensajes from "./MaquetaMensajes.astro";
+import MaquetaPlanSemanal from "./MaquetaPlanSemanal.astro";
+import MaquetaTurnos from "./MaquetaTurnos.astro";
+
+const vistas = [
+  {
+    id: "turnos",
+    titulo: "Turnos",
+    icono: "calendar-days",
+    Componente: MaquetaTurnos,
+    leyenda:
+      "La agenda es del establecimiento: cada sede tiene sus días, su horario y la duración del turno. Un turno fuera de esa agenda no entra, ni al darlo de alta ni al reprogramarlo.",
+  },
+  {
+    id: "semana",
+    titulo: "Plan semanal",
+    icono: "utensils",
+    Componente: MaquetaPlanSemanal,
+    leyenda:
+      "El total del día suma la comida principal de cada franja y no las alternativas, y se compara contra las metas del plan nutricional asignado.",
+  },
+  {
+    id: "antropometria",
+    titulo: "Antropometría",
+    icono: "ruler",
+    Componente: MaquetaAntropometria,
+    leyenda:
+      "Nada derivado se guarda: las masas, el somatotipo y el porcentaje graso se recalculan desde las medidas crudas cada vez que se abre la ficha.",
+  },
+  {
+    id: "mensajes",
+    titulo: "Mensajes",
+    icono: "message-square",
+    Componente: MaquetaMensajes,
+    leyenda:
+      "El chat del portal y WhatsApp son un solo hilo por paciente. Si la API oficial no está conectada, los avisos salen igual por enlace.",
+  },
+];
+---
+
+<section class="seccion seccion-alterna" id="pantallas">
+  <div class="contenedor">
+    <header class="encabezado-seccion revelar">
+      <p class="etiqueta-seccion">Pantallas</p>
+      <h2>Mirá cómo se ve por dentro</h2>
+      <p class="bajada-seccion">
+        Cuatro de las pantallas que vas a usar todas las semanas. Son dibujos en
+        HTML, no capturas: siguen tu tema claro u oscuro y no envejecen.
+      </p>
+    </header>
+
+    <div class="pestanas revelar" data-pestanas>
+      <div class="lista" role="tablist" aria-label="Pantallas de la aplicación">
+        {
+          vistas.map((vista, indice) => (
+            <button
+              type="button"
+              role="tab"
+              class:list={["pestana", { activa: indice === 0 }]}
+              id={`pestana-${vista.id}`}
+              aria-controls={`vista-${vista.id}`}
+              aria-selected={indice === 0 ? "true" : "false"}
+            >
+              <Icono nombre={vista.icono} />
+              <span>{vista.titulo}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="vistas">
+        {
+          vistas.map((vista, indice) => (
+            <div
+              class="vista"
+              role="tabpanel"
+              id={`vista-${vista.id}`}
+              aria-labelledby={`pestana-${vista.id}`}
+              tabindex="0"
+              data-activa={indice === 0 ? "" : undefined}
+            >
+              <vista.Componente />
+              <p class="leyenda">{vista.leyenda}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lista {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .pestana {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 999px;
+    background: hsl(var(--tarjeta));
+    color: hsl(var(--apagado));
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .pestana:hover {
+    color: hsl(var(--texto));
+    transform: translateY(-1px);
+  }
+
+  .pestana.activa {
+    border-color: hsl(var(--primario) / 0.45);
+    background: hsl(var(--acento));
+    color: hsl(var(--acento-texto));
+    box-shadow: 0 6px 18px -10px hsl(var(--primario) / 0.8);
+  }
+
+  .pestana :global(.ico) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .vistas {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  /* Sin JavaScript las cuatro vistas quedan una abajo de la otra, separadas.
+     El guion se encarga de esconder las que no están activas. */
+  .vista + .vista {
+    margin-top: 28px;
+  }
+
+  .vista :global(.maqueta) {
+    box-shadow: var(--sombra-alta);
+  }
+
+  .vista[data-activa] {
+    animation: aparecer 0.45s ease-out;
+  }
+
+  .leyenda {
+    max-width: 62ch;
+    margin: 18px auto 0;
+    color: hsl(var(--apagado));
+    font-size: 14.5px;
+    text-align: center;
+  }
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .lista {
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .pestana {
+      padding: 8px 13px;
+      font-size: 13px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vista[data-activa] {
+      animation: none;
+    }
+  }
+</style>

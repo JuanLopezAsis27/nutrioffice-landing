@@ -1,0 +1,112 @@
+---
+import Icono from "./Icono.astro";
+import Tarjeta from "./Tarjeta.astro";
+
+const funciones = [
+  {
+    icono: "sparkles",
+    titulo: "Asistente analítico",
+    texto:
+      "Preguntale por tus pacientes, planes, recetas y turnos. Contesta leyendo tu base con herramientas, no de memoria.",
+  },
+  {
+    icono: "file-text",
+    titulo: "Alta desde un documento",
+    texto:
+      "Subís la historia clínica en PDF y precarga la ficha del paciente y sus evoluciones. Leer el mismo documento dos veces no duplica nada.",
+  },
+  {
+    icono: "file-spreadsheet",
+    titulo: "Importar tu planilla",
+    texto:
+      "Años de antropometrías en un Excel, una columna por consulta, leídos y puestos en una tabla de revisión. Una fecha repetida no tira abajo el resto.",
+  },
+  {
+    icono: "mic",
+    titulo: "Grabar la consulta",
+    texto:
+      "Grabás el audio desde el turno —se sigue grabando aunque navegues por la app—, se transcribe y queda un resumen de la consulta en la ficha.",
+  },
+  {
+    icono: "bot",
+    titulo: "Asistente del paciente",
+    texto:
+      "Dentro del portal, responde las dudas sobre su plan y sus recetas, con el tono y los límites que vos configurás.",
+  },
+  {
+    icono: "notebook-pen",
+    titulo: "Las instrucciones son tuyas",
+    texto:
+      "Los siete textos que guían al modelo se editan desde Configuración: tu jerga, tus títulos y tu forma de escribir un resumen.",
+  },
+];
+---
+
+<section class="seccion seccion-oscura" id="ia">
+  <div class="brillo-ia" aria-hidden="true"></div>
+
+  <div class="contenedor">
+    <header class="encabezado-seccion revelar">
+      <p class="etiqueta-seccion">Inteligencia artificial</p>
+      <h2>La carga de datos, resuelta</h2>
+      <p class="bajada-seccion">
+        Siete funciones usan un modelo de lenguaje, y todas comparten la misma
+        regla: <strong>la IA nunca guarda sola</strong>. Lee, precarga el
+        formulario y vos revisás antes de confirmar.
+      </p>
+    </header>
+
+    <div class="grilla-tarjetas grilla-tres" data-brillo>
+      {
+        funciones.map((funcion) => (
+          <div class="revelar">
+            <Tarjeta icono={funcion.icono} titulo={funcion.titulo} oscura>
+              {funcion.texto}
+            </Tarjeta>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="nota-seccion revelar">
+      <Icono nombre="lock" />
+      Conectás tu propia clave de Anthropic, OpenAI u OpenRouter. Sin clave
+      configurada, estas funciones quedan apagadas: la app jamás inventa un dato
+      clínico.
+    </p>
+  </div>
+</section>
+
+<style>
+  .seccion-oscura {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Dos resplandores muy suaves para que el bloque oscuro no sea un rectángulo
+     plano. No hay imágenes: son dos gradientes. */
+  .brillo-ia {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        60% 50% at 15% 0%,
+        hsl(var(--primario) / 0.18),
+        transparent 70%
+      ),
+      radial-gradient(
+        50% 50% at 90% 100%,
+        hsl(266 60% 55% / 0.14),
+        transparent 70%
+      );
+    pointer-events: none;
+  }
+
+  .grilla-tarjetas > .revelar {
+    display: flex;
+  }
+
+  .grilla-tarjetas > .revelar > :global(.tarjeta) {
+    width: 100%;
+  }
+</style>

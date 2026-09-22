@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NutriOffice">
+  <title>NutriOffice</title>
+  <path d="M12 48V16l29 32V16" fill="none" stroke="#F4535E" stroke-width="6"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="45" r="4" fill="#F4535E"/>
+</svg>

@@ -1,0 +1,90 @@
+---
+/**
+ * La plantilla de todas las páginas: cabeza, cabecera, pie y los guiones.
+ *
+ * Es lo que justifica el paso de compilación. Con cuatro archivos HTML sueltos,
+ * cambiar un enlace del pie o una metaetiqueta eran cuatro ediciones y la
+ * cuarta se olvidaba.
+ */
+import Cabecera from "../componentes/Cabecera.astro";
+import HojaIconos from "../componentes/HojaIconos.astro";
+import Pie from "../componentes/Pie.astro";
+import "../estilos/global.css";
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Se usa en las páginas de texto, que llevan una cabecera más sobria. */
+  compacta?: boolean;
+  /** Páginas de trabajo interno que no tienen por qué salir en Google. */
+  oculta?: boolean;
+}
+
+const {
+  titulo,
+  descripcion,
+  compacta = false,
+  oculta = false,
+} = Astro.props;
+
+const canonica = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    {oculta && <meta name="robots" content="noindex, nofollow" />}
+    {/* El sitio abre en oscuro, así que la barra del teléfono va del color
+        del fondo oscuro. Si el visitante pasa a claro, el guion lo actualiza. */}
+    <meta name="theme-color" content="#161618" />
+    <link rel="icon" href="/recursos/marca.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NutriOffice" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={new URL("/recursos/marca.svg", Astro.site).href} />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      Marca que el JavaScript está disponible ANTES de pintar. Los estilos que
+      esconden algo para animarlo cuelgan de esta clase: si el guion no llega a
+      cargar, la página se ve completa en vez de quedar en blanco. Va acá y no
+      en el guion de abajo porque ese corre después del pintado y se vería el
+      salto.
+    -->
+    <script is:inline>
+      document.documentElement.classList.add("con-js");
+    </script>
+  </head>
+
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <HojaIconos />
+    <Cabecera compacta={compacta} />
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <Pie />
+
+    <script>
+      import "../guiones/interacciones.js";
+    </script>
+  </body>
+</html>

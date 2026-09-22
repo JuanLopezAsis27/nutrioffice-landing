@@ -1,0 +1,25 @@
+---
+/**
+ * Los números suben desde cero cuando la franja entra en pantalla. El valor
+ * final está escrito en el HTML: sin JavaScript se ve igual, quieto.
+ */
+const cifras = [
+  { valor: 12, pie: "módulos en un solo lugar" },
+  { valor: 3, pie: "medios de recordatorio" },
+  { valor: 7, pie: "funciones asistidas por IA" },
+  { valor: 2, pie: "apps: la tuya y la del paciente" },
+];
+---
+
+<section class="cifras">
+  <div class="contenedor cifras-grilla">
+    {
+      cifras.map((cifra) => (
+        <div class="cifra revelar">
+          <strong data-contar={cifra.valor}>{cifra.valor}</strong>
+          <span>{cifra.pie}</span>
+        </div>
+      ))
+    }
+  </div>
+</section>

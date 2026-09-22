@@ -1,0 +1,301 @@
+---
+import Icono from "../componentes/Icono.astro";
+import Base from "./Base.astro";
+
+/**
+ * Las páginas de texto largo: privacidad y términos. Aportan el índice lateral
+ * —que se queda fijo mientras se lee— y la tipografía del cuerpo.
+ *
+ * El índice se arma acá desde una lista y no se deduce de los encabezados: son
+ * pocos y así el orden y el texto del índice son explícitos.
+ */
+interface Props {
+  titulo: string;
+  descripcion: string;
+  encabezado: string;
+  entrada: string;
+  actualizado: string;
+  indice: { id: string; texto: string }[];
+}
+
+const { titulo, descripcion, encabezado, entrada, actualizado, indice } =
+  Astro.props;
+---
+
+<Base titulo={titulo} descripcion={descripcion} compacta>
+  <section class="encabezado">
+    <div class="encabezado-fondo patron-puntos" aria-hidden="true"></div>
+    <div class="contenedor">
+      <p class="etiqueta">
+        <Icono nombre="file-text" />
+        Documento legal
+      </p>
+      <h1>{encabezado}</h1>
+      <p class="entrada">{entrada}</p>
+      <p class="fecha">
+        <Icono nombre="clock" />
+        Última actualización: {actualizado}
+      </p>
+    </div>
+  </section>
+
+  <div class="contenedor cuerpo">
+    <nav class="indice" aria-label="Contenido del documento">
+      <span class="indice-titulo">En esta página</span>
+      <ol>
+        {indice.map((item) => <li><a href={`#${item.id}`}>{item.texto}</a></li>)}
+      </ol>
+    </nav>
+
+    <article class="texto">
+      <slot />
+    </article>
+  </div>
+</Base>
+
+<style>
+  .encabezado {
+    position: relative;
+    padding: 56px 0 40px;
+    border-bottom: 1px solid hsl(var(--borde));
+    overflow: hidden;
+  }
+
+  .encabezado-fondo {
+    position: absolute;
+    inset: 0;
+    mask-image: radial-gradient(80% 90% at 20% 0%, #000, transparent 70%);
+    -webkit-mask-image: radial-gradient(80% 90% at 20% 0%, #000, transparent 70%);
+    pointer-events: none;
+  }
+
+  .encabezado > .contenedor {
+    position: relative;
+  }
+
+  .encabezado h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin-bottom: 14px;
+  }
+
+  .entrada {
+    max-width: 62ch;
+    color: hsl(var(--apagado));
+    font-size: 1.05rem;
+  }
+
+  .fecha {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    color: hsl(var(--apagado));
+    font-size: 14px;
+  }
+
+  .fecha :global(.ico) {
+    width: 15px;
+    height: 15px;
+    color: hsl(var(--primario));
+  }
+
+  .cuerpo {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    align-items: start;
+    gap: 56px;
+    padding-top: 52px;
+    padding-bottom: 80px;
+  }
+
+  .indice {
+    position: sticky;
+    top: 100px;
+    padding: 20px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: var(--radio-grande);
+    background: hsl(var(--tarjeta));
+    box-shadow: var(--sombra-chica);
+  }
+
+  .indice-titulo {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(var(--apagado));
+  }
+
+  .indice ol {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: apartado;
+  }
+
+  .indice a {
+    display: block;
+    color: hsl(var(--apagado));
+    font-size: 14px;
+    line-height: 1.35;
+    transition: color 0.15s ease;
+  }
+
+  .indice li {
+    counter-increment: apartado;
+  }
+
+  .indice a::before {
+    content: counter(apartado) ". ";
+    color: hsl(var(--primario));
+    font-weight: 700;
+  }
+
+  .indice a:hover {
+    color: hsl(var(--texto));
+  }
+
+  /* --------------------------- el texto en sí --------------------------- */
+
+  .texto {
+    max-width: 70ch;
+  }
+
+  .texto :global(h2) {
+    margin: 44px 0 14px;
+    font-size: 1.5rem;
+    scroll-margin-top: 100px;
+  }
+
+  .texto :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .texto :global(h3) {
+    margin: 28px 0 10px;
+    font-size: 1.1rem;
+  }
+
+  .texto :global(p),
+  .texto :global(li) {
+    color: hsl(var(--apagado));
+    font-size: 16.5px;
+    line-height: 1.7;
+  }
+
+  .texto :global(p) {
+    margin: 0 0 14px;
+  }
+
+  .texto :global(ul) {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .texto :global(ul li) {
+    position: relative;
+    padding-left: 22px;
+  }
+
+  .texto :global(ul li)::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: hsl(var(--primario));
+  }
+
+  .texto :global(strong) {
+    color: hsl(var(--texto));
+  }
+
+  .texto :global(a) {
+    color: hsl(var(--acento-texto));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .texto :global(.aviso) {
+    display: flex;
+    gap: 12px;
+    margin: 0 0 32px;
+    padding: 18px 20px;
+    border: 1px solid hsl(38 92% 55% / 0.4);
+    border-radius: var(--radio);
+    background: hsl(38 92% 55% / 0.1);
+    font-size: 15px;
+  }
+
+  .texto :global(.aviso .ico) {
+    flex: none;
+    margin-top: 3px;
+    color: hsl(var(--ambar-texto));
+  }
+
+  /* Lo que falta completar antes de publicar: se ve de lejos y se busca con
+     un Ctrl+F por el corchete. */
+  .texto :global(.completar) {
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: hsl(38 92% 55% / 0.16);
+    box-shadow: inset 0 -1px 0 hsl(38 92% 45% / 0.5);
+    color: hsl(var(--ambar-texto));
+    font-weight: 600;
+    font-size: 0.95em;
+  }
+
+  .texto :global(code) {
+    padding: 2px 6px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 6px;
+    background: hsl(var(--suave) / 0.7);
+    font-size: 0.88em;
+  }
+
+  .texto :global(table) {
+    width: 100%;
+    margin: 0 0 20px;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  .texto :global(th),
+  .texto :global(td) {
+    padding: 10px 12px;
+    border: 1px solid hsl(var(--borde));
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .texto :global(th) {
+    background: hsl(var(--suave) / 0.6);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+
+  .texto :global(td) {
+    color: hsl(var(--apagado));
+  }
+
+  @media (max-width: 960px) {
+    .cuerpo {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding-top: 36px;
+    }
+
+    .indice {
+      position: static;
+    }
+  }
+</style>

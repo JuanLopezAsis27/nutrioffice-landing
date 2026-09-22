@@ -1,0 +1,253 @@
+---
+import Icono from "./Icono.astro";
+import VentanaApp from "./VentanaApp.astro";
+
+const conversaciones = [
+  { canal: "whatsapp", sinLeer: 2, activa: true },
+  { canal: "portal", sinLeer: 0, activa: false },
+  { canal: "whatsapp", sinLeer: 1, activa: false },
+  { canal: "portal", sinLeer: 0, activa: false },
+];
+
+const mensajes = [
+  { de: "paciente", texto: "Hola! ¿Puedo reemplazar el arroz del almuerzo por quinoa?" },
+  { de: "profesional", texto: "Sí, misma porción ya cocida. Te dejo la receta en tu portal." },
+  { de: "paciente", texto: "Genial, gracias 🙌" },
+];
+---
+
+<VentanaApp ruta="nutrioffice.app/dashboard/mensajes" activa={3}>
+  <div class="cabecera-vista">
+    <span class="maqueta-titulo">Bandeja de entrada</span>
+    <span class="canal-activo">
+      <Icono nombre="message-square" />
+      WhatsApp conectado
+    </span>
+  </div>
+
+  <div class="columnas">
+    <div class="bandeja">
+      {
+        conversaciones.map((conversacion) => (
+          <div class:list={["conversacion", { activa: conversacion.activa }]}>
+            <span class="avatar" />
+            <span class="lineas">
+              <b />
+              <i />
+            </span>
+            {conversacion.sinLeer > 0 && (
+              <span class="sin-leer">{conversacion.sinLeer}</span>
+            )}
+            <span class:list={["marca-canal", conversacion.canal]} />
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="hilo">
+      {
+        mensajes.map((mensaje) => (
+          <p class:list={["burbuja", mensaje.de]}>{mensaje.texto}</p>
+        ))
+      }
+      <div class="redaccion">
+        <span class="campo">Escribí un mensaje…</span>
+        <span class="enviar">
+          <Icono nombre="arrow-right" />
+        </span>
+      </div>
+    </div>
+  </div>
+</VentanaApp>
+
+<style>
+  .cabecera-vista {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .canal-activo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: hsl(var(--verde-fondo));
+    color: hsl(var(--verde-texto));
+    font-size: 9.5px;
+    font-weight: 700;
+  }
+
+  .canal-activo :global(.ico) {
+    width: 11px;
+    height: 11px;
+  }
+
+  .columnas {
+    display: grid;
+    grid-template-columns: 0.85fr 1.4fr;
+    gap: 10px;
+  }
+
+  .bandeja {
+    display: grid;
+    align-content: start;
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 12px;
+    background: hsl(var(--tarjeta));
+  }
+
+  .conversacion {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 8px;
+    border-radius: 8px;
+  }
+
+  .conversacion.activa {
+    background: hsl(var(--acento));
+  }
+
+  .avatar {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    border-radius: 50%;
+    background: hsl(var(--apagado) / 0.25);
+  }
+
+  .conversacion.activa .avatar {
+    background: hsl(var(--primario) / 0.35);
+  }
+
+  .lineas {
+    display: grid;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .lineas b {
+    height: 5px;
+    width: 70%;
+    border-radius: 3px;
+    background: hsl(var(--apagado) / 0.3);
+  }
+
+  .lineas i {
+    height: 4px;
+    width: 92%;
+    border-radius: 3px;
+    background: hsl(var(--apagado) / 0.18);
+  }
+
+  .sin-leer {
+    min-width: 14px;
+    padding: 1px 4px;
+    border-radius: 999px;
+    background: hsl(var(--primario));
+    color: hsl(var(--primario-texto));
+    font-size: 8px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  /* Una rayita al costado dice por qué canal llegó la conversación. */
+  .marca-canal {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    border-radius: 999px;
+  }
+
+  .marca-canal.whatsapp {
+    background: hsl(152 55% 45%);
+  }
+
+  .marca-canal.portal {
+    background: hsl(var(--primario) / 0.6);
+  }
+
+  .hilo {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    padding: 11px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 12px;
+    background: hsl(var(--tarjeta));
+  }
+
+  .burbuja {
+    max-width: 82%;
+    margin: 0;
+    padding: 7px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    line-height: 1.4;
+  }
+
+  .burbuja.paciente {
+    justify-self: start;
+    border-bottom-left-radius: 4px;
+    background: hsl(var(--suave));
+    color: hsl(var(--texto));
+  }
+
+  .burbuja.profesional {
+    justify-self: end;
+    border-bottom-right-radius: 4px;
+    background: hsl(var(--primario));
+    color: hsl(var(--primario-texto));
+  }
+
+  .redaccion {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .campo {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 999px;
+    background: hsl(var(--fondo));
+    color: hsl(var(--apagado));
+    font-size: 9px;
+  }
+
+  .enviar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: hsl(var(--primario));
+    color: hsl(var(--primario-texto));
+  }
+
+  .enviar :global(.ico) {
+    width: 12px;
+    height: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .columnas {
+      grid-template-columns: 0.7fr 1.3fr;
+    }
+
+    .burbuja {
+      font-size: 8.5px;
+    }
+  }
+</style>

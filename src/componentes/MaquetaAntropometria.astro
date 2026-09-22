@@ -1,0 +1,213 @@
+---
+import VentanaApp from "./VentanaApp.astro";
+
+const pliegues = [
+  { nombre: "Tríceps", valor: "12,4" },
+  { nombre: "Subescapular", valor: "14,2" },
+  { nombre: "Supraespinal", valor: "9,8" },
+  { nombre: "Abdominal", valor: "18,6" },
+  { nombre: "Muslo frontal", valor: "22,1" },
+  { nombre: "Pantorrilla", valor: "11,3" },
+];
+
+const masas = [
+  { nombre: "Muscular", valor: "34,2 kg", proporcion: 46 },
+  { nombre: "Adiposa", valor: "19,7 kg", proporcion: 27 },
+  { nombre: "Ósea", valor: "10,1 kg", proporcion: 14 },
+  { nombre: "Residual", valor: "6,4 kg", proporcion: 9 },
+  { nombre: "Piel", valor: "2,9 kg", proporcion: 4 },
+];
+---
+
+<VentanaApp ruta="nutrioffice.app/dashboard/pacientes/antropometria" activa={1}>
+  <div class="cabecera-vista">
+    <span class="maqueta-titulo">Medición del 12/09 · perfil ISAK completo</span>
+    <span class="protocolo">5 componentes</span>
+  </div>
+
+  <div class="columnas">
+    <div class="bloque">
+      <span class="rotulo">Pliegues (mm)</span>
+      {
+        pliegues.map((pliegue) => (
+          <div class="medida">
+            <span>{pliegue.nombre}</span>
+            <b>{pliegue.valor}</b>
+          </div>
+        ))
+      }
+      <div class="medida suma">
+        <span>Σ 6 pliegues</span>
+        <b>88,4</b>
+      </div>
+    </div>
+
+    <div class="bloque">
+      <span class="rotulo">Fraccionamiento de Kerr</span>
+      {
+        masas.map((masa) => (
+          <div class="masa">
+            <div class="masa-fila">
+              <span>{masa.nombre}</span>
+              <b>{masa.valor}</b>
+            </div>
+            <div class="barra-fina">
+              <i style={`--proporcion: ${masa.proporcion}%`} />
+            </div>
+          </div>
+        ))
+      }
+
+      <div class="somatotipo">
+        <span class="rotulo">Somatotipo</span>
+        <svg viewBox="0 0 120 64" role="presentation">
+          <path
+            d="M60 6 L112 56 L8 56 Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-opacity=".22"
+            stroke-width="1.5"
+            stroke-linejoin="round"></path>
+          <circle class="punto" cx="52" cy="40" r="4"></circle>
+          <circle cx="66" cy="45" r="2.4" fill="currentColor" opacity=".3"></circle>
+          <circle cx="72" cy="47" r="2.4" fill="currentColor" opacity=".18"></circle>
+        </svg>
+        <span class="lectura">3,1 – 4,6 – 2,2</span>
+      </div>
+    </div>
+  </div>
+</VentanaApp>
+
+<style>
+  .cabecera-vista {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .protocolo {
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: hsl(var(--acento));
+    color: hsl(var(--acento-texto));
+    font-size: 9.5px;
+    font-weight: 700;
+  }
+
+  .columnas {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 10px;
+  }
+
+  .bloque {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    padding: 11px 12px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 12px;
+    background: hsl(var(--tarjeta));
+  }
+
+  .rotulo {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: hsl(var(--apagado));
+  }
+
+  .medida {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed hsl(var(--borde));
+    font-size: 9.5px;
+    color: hsl(var(--apagado));
+  }
+
+  .medida b {
+    color: hsl(var(--texto));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .medida.suma {
+    margin-top: 2px;
+    border-bottom: none;
+    color: hsl(var(--acento-texto));
+  }
+
+  .medida.suma b {
+    color: hsl(var(--acento-texto));
+  }
+
+  .masa-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 9.5px;
+    color: hsl(var(--apagado));
+  }
+
+  .masa-fila b {
+    color: hsl(var(--texto));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .barra-fina {
+    height: 5px;
+    margin-top: 3px;
+    border-radius: 999px;
+    background: hsl(var(--suave));
+    overflow: hidden;
+  }
+
+  .barra-fina i {
+    display: block;
+    height: 100%;
+    width: var(--proporcion, 0%);
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primario)),
+      hsl(var(--primario) / 0.5)
+    );
+  }
+
+  .somatotipo {
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid hsl(var(--borde));
+    text-align: center;
+    color: hsl(var(--apagado));
+  }
+
+  .somatotipo svg {
+    width: 100%;
+    max-width: 130px;
+    margin: 4px auto 2px;
+  }
+
+  .punto {
+    fill: hsl(var(--primario));
+  }
+
+  .lectura {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: hsl(var(--texto));
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 640px) {
+    .columnas {
+      grid-template-columns: 1fr;
+    }
+
+    .somatotipo {
+      display: none;
+    }
+  }
+</style>

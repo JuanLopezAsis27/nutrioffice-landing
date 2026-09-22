@@ -1,0 +1,180 @@
+---
+import Icono from "./Icono.astro";
+import Tarjeta from "./Tarjeta.astro";
+
+/** Lo que aparece en la cinta de arriba: los servicios, tal como se llaman. */
+const servicios = [
+  { icono: "calendar-days", nombre: "Google Calendar" },
+  { icono: "message-square", nombre: "WhatsApp Cloud API" },
+  { icono: "sparkles", nombre: "Anthropic" },
+  { icono: "bot", nombre: "OpenAI" },
+  { icono: "compass", nombre: "OpenRouter" },
+  { icono: "watch", nombre: "Apple Health" },
+  { icono: "heart-pulse", nombre: "Health Connect" },
+  { icono: "mail", nombre: "Email (SMTP)" },
+  { icono: "file-spreadsheet", nombre: "Excel" },
+  { icono: "smartphone", nombre: "Android" },
+];
+
+const integraciones = [
+  {
+    icono: "calendar-days",
+    titulo: "Google Calendar",
+    texto: "Tus turnos, en el calendario que ya mirás todos los días.",
+  },
+  {
+    icono: "message-square",
+    titulo: "WhatsApp Cloud API",
+    texto:
+      "Recordatorios desde el número del consultorio y las respuestas del paciente en su ficha. Sin conectarla, todo sale igual por enlace de WhatsApp.",
+  },
+  {
+    icono: "sparkles",
+    titulo: "Proveedores de IA",
+    texto:
+      "Anthropic, OpenAI u OpenRouter con tu clave. La transcripción de audio va aparte.",
+  },
+  {
+    icono: "watch",
+    titulo: "Wearables",
+    texto:
+      "Apple Health y Health Connect desde la app móvil: pasos, sueño y actividad sumados al seguimiento.",
+  },
+  {
+    icono: "mail",
+    titulo: "Email",
+    texto:
+      "Bienvenida, recordatorios y recuperación de contraseña con tu servidor de correo.",
+  },
+  {
+    icono: "file-spreadsheet",
+    titulo: "Tu tabla de alimentos",
+    texto:
+      "Importás tu Excel y los planes calculan con tus valores, no con los de una base genérica.",
+  },
+];
+---
+
+<section class="seccion" id="integraciones">
+  <div class="marquesina" data-marquesina>
+    <div class="cinta">
+      {
+        [0, 1].map((copia) =>
+          servicios.map((servicio) => (
+            <span class="pieza" aria-hidden={copia === 1 ? "true" : undefined}>
+              <Icono nombre={servicio.icono} />
+              {servicio.nombre}
+            </span>
+          )),
+        )
+      }
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <header class="encabezado-seccion revelar">
+      <p class="etiqueta-seccion">Integraciones</p>
+      <h2>Se conecta con lo que ya usás</h2>
+      <p class="bajada-seccion">
+        Cada servicio se da de alta una vez, con tus propias credenciales, y se
+        puede desconectar sin romper nada: la app funciona igual sin ninguno.
+      </p>
+    </header>
+
+    <div class="grilla-tarjetas grilla-tres" data-brillo>
+      {
+        integraciones.map((integracion) => (
+          <div class="revelar">
+            <Tarjeta icono={integracion.icono} titulo={integracion.titulo} compacta>
+              {integracion.texto}
+            </Tarjeta>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .marquesina {
+    margin-bottom: 60px;
+    overflow: hidden;
+    /* Se desvanece en los bordes para que no se vea el corte de la cinta. */
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+  }
+
+  .cinta {
+    display: flex;
+    width: max-content;
+    gap: 12px;
+    /* La lista está duplicada: al correrse la mitad exacta, vuelve al inicio
+       sin que se note el salto. */
+    animation: correr 38s linear infinite;
+  }
+
+  .marquesina:hover .cinta {
+    animation-play-state: paused;
+  }
+
+  .pieza {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 20px;
+    border: 1px solid hsl(var(--borde));
+    border-radius: 999px;
+    background: hsl(var(--tarjeta));
+    color: hsl(var(--apagado));
+    font-size: 14.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: var(--sombra-chica);
+  }
+
+  .pieza :global(.ico) {
+    width: 16px;
+    height: 16px;
+    color: hsl(var(--primario));
+  }
+
+  @keyframes correr {
+    to {
+      transform: translateX(calc(-50% - 6px));
+    }
+  }
+
+  .grilla-tarjetas > .revelar {
+    display: flex;
+  }
+
+  .grilla-tarjetas > .revelar > :global(.tarjeta) {
+    width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cinta {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Quieta, la copia de la cinta sería la lista repetida dos veces. */
+    .cinta .pieza[aria-hidden] {
+      display: none;
+    }
+  }
+</style>

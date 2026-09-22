@@ -1,0 +1,38 @@
+---
+/**
+ * El marco común de todas las maquetas: la ventana del navegador y la barra
+ * lateral del panel. Lo que cambia entre pantallas es lo que va adentro.
+ */
+interface Props {
+  ruta: string;
+  /** Cuál de los siete enlaces de la barra lateral queda resaltado. */
+  activa?: number;
+}
+
+const { ruta, activa = 0 } = Astro.props;
+---
+
+<div class="maqueta">
+  <div class="maqueta-barra">
+    <span class="semaforo"></span><span class="semaforo"></span><span
+      class="semaforo"></span>
+    <span class="maqueta-url">{ruta}</span>
+  </div>
+
+  <div class="maqueta-cuerpo">
+    <aside class="maqueta-lateral">
+      <span class="maqueta-logo"></span>
+      {
+        Array.from({ length: 7 }).map((_, indice) => (
+          <span class:list={["maqueta-enlace", { activa: indice === activa }]}>
+            <i /><b />
+          </span>
+        ))
+      }
+    </aside>
+
+    <div class="maqueta-panel">
+      <slot />
+    </div>
+  </div>
+</div>

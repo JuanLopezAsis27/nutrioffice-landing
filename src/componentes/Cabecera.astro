@@ -1,0 +1,110 @@
+---
+import Icono from "./Icono.astro";
+
+interface Props {
+  /** Las páginas de texto no tienen secciones propias: en vez del menú, vuelven. */
+  compacta?: boolean;
+}
+
+const { compacta = false } = Astro.props;
+
+const secciones = [
+  { href: "/#modulos", texto: "Funciones" },
+  { href: "/#pantallas", texto: "Pantallas" },
+  { href: "/#ia", texto: "IA" },
+  { href: "/#composicion", texto: "Seguimiento" },
+  { href: "/#portal", texto: "Portal" },
+  { href: "/#integraciones", texto: "Integraciones" },
+];
+---
+
+<header class="cabecera" id="cabecera">
+  <div class="contenedor cabecera-fila">
+    <a class="marca" href="/">
+      <img src="/recursos/marca.svg" alt="" width="34" height="34" />
+      <span>Nutri<b>Office</b></span>
+    </a>
+
+    {
+      compacta ? (
+        <a class="volver" href="/">
+          <Icono nombre="chevron-left" />
+          Volver al inicio
+        </a>
+      ) : (
+        <nav class="nav" id="nav" aria-label="Principal">
+          {secciones.map((seccion) => (
+            <a href={seccion.href} data-seccion={seccion.href.replace("/#", "")}>
+              {seccion.texto}
+            </a>
+          ))}
+        </nav>
+      )
+    }
+
+    <div class="cabecera-acciones">
+      <button
+        class="boton-icono"
+        id="alternar-tema"
+        type="button"
+        aria-label="Cambiar entre tema claro y oscuro"
+      >
+        <Icono nombre="moon" clase="solo-claro" />
+        <Icono nombre="sun" clase="solo-oscuro" />
+      </button>
+
+      <a class="boton boton-primario oculto-movil" href="/#contacto">
+        Pedir una demo
+      </a>
+
+      {
+        !compacta && (
+          <button
+            class="boton-icono solo-movil"
+            id="alternar-menu"
+            type="button"
+            aria-label="Abrir el menú"
+            aria-expanded="false"
+            aria-controls="nav"
+          >
+            <Icono nombre="menu" clase="ico-abrir" />
+            <Icono nombre="x" clase="ico-cerrar" />
+          </button>
+        )
+      }
+    </div>
+  </div>
+
+  {/* Cuánto queda por leer. Se llena desde el guion con una sola escritura. */}
+  <div class="progreso" id="progreso" aria-hidden="true"></div>
+</header>
+
+<style>
+  .progreso {
+    height: 2px;
+    width: var(--leido, 0%);
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primario)),
+      hsl(var(--acento-texto))
+    );
+    transition: width 0.1s linear;
+  }
+
+  .volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    padding: 8px 12px;
+    border-radius: var(--radio);
+    color: hsl(var(--apagado));
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .volver:hover {
+    color: hsl(var(--texto));
+    background: hsl(var(--suave));
+  }
+</style>

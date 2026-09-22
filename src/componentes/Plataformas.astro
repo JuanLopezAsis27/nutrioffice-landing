@@ -1,0 +1,55 @@
+---
+import Tarjeta from "./Tarjeta.astro";
+
+const plataformas = [
+  {
+    icono: "monitor",
+    titulo: "Web",
+    texto:
+      "En cualquier navegador, pensada para usarse sentado frente a una pantalla grande durante la consulta.",
+  },
+  {
+    icono: "cloud-upload",
+    titulo: "Instalable",
+    texto:
+      "Se instala en Windows, Mac, Android y iPhone con su ícono y su propia ventana, sin barra de direcciones. Es el mismo sitio: se actualiza solo.",
+  },
+  {
+    icono: "smartphone",
+    titulo: "App Android",
+    texto:
+      "El portal del paciente en una app nativa, con los permisos de salud para traer los datos del reloj.",
+  },
+];
+---
+
+<section class="seccion">
+  <div class="contenedor">
+    <header class="encabezado-seccion revelar">
+      <p class="etiqueta-seccion">Dónde se usa</p>
+      <h2>En la consulta y en el bolsillo</h2>
+    </header>
+
+    <div class="grilla-tarjetas grilla-tres" data-brillo>
+      {
+        plataformas.map((plataforma) => (
+          <div class="revelar">
+            <Tarjeta icono={plataforma.icono} titulo={plataforma.titulo}>
+              {plataforma.texto}
+            </Tarjeta>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grilla-tarjetas > .revelar {
+    display: flex;
+  }
+
+  .grilla-tarjetas > .revelar > :global(.tarjeta) {
+    width: 100%;
+  }
+</style>

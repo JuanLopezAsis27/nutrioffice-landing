@@ -1,0 +1,81 @@
+---
+import Icono from "./Icono.astro";
+
+const pantallas = [
+  "Mi inicio",
+  "Mis turnos",
+  "Mi plan",
+  "Mi semana",
+  "Mis recetas",
+  "Mi diario",
+  "Mi progreso",
+  "Mi composición",
+  "Mis objetivos",
+  "Mi material",
+  "Mensajes",
+  "Asistente",
+];
+---
+
+<section class="seccion seccion-alterna" id="portal">
+  <div class="contenedor partida invertida">
+    <div class="partida-texto revelar">
+      <p class="etiqueta-seccion">Portal del paciente</p>
+      <h2>La mitad de la app que se abre todos los días</h2>
+      <p class="bajada-seccion">
+        Tu paciente entra con su usuario desde el teléfono y encuentra lo suyo,
+        sin pedirte nada por mensaje. Todo lo que ve lo publicás vos.
+      </p>
+
+      <div class="nube-chips">
+        {pantallas.map((pantalla) => <span>{pantalla}</span>)}
+      </div>
+
+      <p class="nota-seccion clara">
+        <Icono nombre="shield-check" />
+        La historia clínica, los laboratorios y las alertas siguen siendo tuyas:
+        del lado del paciente solo se expone lo que corresponde.
+      </p>
+    </div>
+
+    <div class="partida-visual revelar" aria-hidden="true">
+      <div class="telefono">
+        <div class="telefono-muesca"></div>
+        <div class="telefono-pantalla">
+          <div class="tel-encabezado">
+            <span>Buen día</span>
+            <b>Mi inicio</b>
+          </div>
+
+          <div class="tel-tarjeta destacada">
+            <span>Próximo turno</span>
+            <strong>jue 24 · 10:30</strong>
+            <div class="tel-acciones">
+              <i>Confirmar</i><i class="suave">Reprogramar</i>
+            </div>
+          </div>
+
+          <div class="tel-tarjeta">
+            <span>Mi plan</span>
+            <strong>Plan de descenso · semana 4</strong>
+            <div class="tel-barra"><i style="--proporcion: 62%"></i></div>
+          </div>
+
+          <div class="tel-tarjeta">
+            <span>Hoy registré</span>
+            <div class="tel-iconos">
+              <em><Icono nombre="utensils" /></em>
+              <em><Icono nombre="scale" /></em>
+              <em class="pendiente"><Icono nombre="activity" /></em>
+            </div>
+          </div>
+
+          <div class="tel-tarjeta fila">
+            <span>Mensaje nuevo</span>
+            <b class="punto-coral"></b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

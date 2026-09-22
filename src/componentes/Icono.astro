@@ -1,0 +1,16 @@
+---
+/**
+ * Un ícono de la hoja de símbolos. El nombre es el de lucide sin el prefijo:
+ * <Icono nombre="users" />.
+ */
+interface Props {
+  nombre: string;
+  clase?: string;
+}
+
+const { nombre, clase } = Astro.props;
+---
+
+<svg class:list={["ico", clase]} aria-hidden="true">
+  <use href={`#i-${nombre}`}></use>
+</svg>

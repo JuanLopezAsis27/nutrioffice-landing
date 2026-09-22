@@ -1,0 +1,295 @@
+---
+import Icono from "../componentes/Icono.astro";
+import Texto from "../plantillas/Texto.astro";
+
+const indice = [
+  { id: "quienes", texto: "Quiénes somos" },
+  { id: "roles", texto: "Los dos roles: profesional y plataforma" },
+  { id: "datos", texto: "Qué datos se tratan" },
+  { id: "finalidad", texto: "Para qué se usan" },
+  { id: "salud", texto: "Datos de salud" },
+  { id: "terceros", texto: "Con quién se comparten" },
+  { id: "ia", texto: "Inteligencia artificial" },
+  { id: "conservacion", texto: "Dónde se guardan y por cuánto tiempo" },
+  { id: "seguridad", texto: "Seguridad" },
+  { id: "derechos", texto: "Derechos de las personas" },
+  { id: "cookies", texto: "Cookies y almacenamiento local" },
+  { id: "menores", texto: "Menores de edad" },
+  { id: "cambios", texto: "Cambios en esta política" },
+  { id: "contacto", texto: "Contacto" },
+];
+---
+
+<Texto
+  titulo="Política de privacidad — NutriOffice"
+  descripcion="Qué datos trata NutriOffice, con qué finalidad, con quién se comparten y cómo se ejercen los derechos sobre ellos."
+  encabezado="Política de privacidad"
+  entrada="Qué datos recoge NutriOffice, para qué se usan, quién más los ve y cómo se ejercen los derechos sobre ellos. Sin vueltas."
+  actualizado="22 de septiembre de 2026"
+  indice={indice}
+>
+  <div class="aviso">
+    <Icono nombre="circle-help" />
+    <span>
+      <strong>Modelo para completar y revisar.</strong> Los tramos entre
+      corchetes hay que reemplazarlos por los datos reales, y conviene que un
+      profesional del derecho revise el texto antes de publicarlo. Una vez
+      revisado, borrá este recuadro del archivo
+      <code>src/pages/privacidad.astro</code>.
+    </span>
+  </div>
+
+  <h2 id="quienes">1. Quiénes somos</h2>
+  <p>
+    NutriOffice es una plataforma de gestión para consultorios de nutrición,
+    operada por <span class="completar">[razón social]</span>, con domicilio en
+    <span class="completar">[domicilio]</span> y correo de contacto
+    <a href="mailto:hola@nutrioffice.app">hola@nutrioffice.app</a>.
+  </p>
+  <p>
+    Esta política explica el tratamiento de los datos personales de quienes usan
+    la plataforma: los profesionales que contratan el servicio y los pacientes
+    cuyos datos se cargan en él.
+  </p>
+
+  <h2 id="roles">2. Los dos roles: el profesional y la plataforma</h2>
+  <p>
+    Esta distinción es la que ordena todo lo demás:
+  </p>
+  <ul>
+    <li>
+      <strong>El profesional es el responsable</strong> de los datos de sus
+      pacientes. Él decide qué carga, para qué, a quién se lo muestra y cuánto
+      tiempo lo conserva. La relación clínica es suya.
+    </li>
+    <li>
+      <strong>NutriOffice es el encargado del tratamiento.</strong> Guarda y
+      procesa esos datos por cuenta del profesional, siguiendo sus
+      instrucciones, y no los usa para ninguna finalidad propia.
+    </li>
+  </ul>
+  <p>
+    En la práctica: si un paciente quiere saber qué datos suyos hay cargados, o
+    quiere que se rectifiquen o se borren, el interlocutor es su nutricionista.
+    NutriOffice acompaña ese pedido con las herramientas que hagan falta.
+  </p>
+  <p>
+    Cada consultorio funciona además como un compartimento separado: los datos
+    de un profesional no son accesibles desde la cuenta de otro.
+  </p>
+
+  <h2 id="datos">3. Qué datos se tratan</h2>
+  <h3>De la cuenta profesional</h3>
+  <ul>
+    <li>Nombre, correo electrónico y contraseña (guardada siempre cifrada, nunca en texto plano).</li>
+    <li>Datos del consultorio: membrete, establecimientos, horarios de atención y preferencias de configuración.</li>
+    <li>Credenciales de los servicios que se conecten, guardadas cifradas.</li>
+  </ul>
+
+  <h3>De los pacientes, cargados por el profesional</h3>
+  <ul>
+    <li>Identificación y contacto: nombre, documento, fecha de nacimiento, sexo biológico, teléfono, correo electrónico.</li>
+    <li>Datos clínicos y de seguimiento: historia clínica, evoluciones, antropometrías, laboratorios, objetivos, planes, registros del diario y métricas de dispositivos.</li>
+    <li>Archivos que se suban: documentos, estudios, fotos de comidas, grabaciones de la consulta y sus transcripciones.</li>
+    <li>Mensajes intercambiados por el chat del portal o por WhatsApp.</li>
+  </ul>
+
+  <h3>Técnicos</h3>
+  <ul>
+    <li>Registros de acceso y de errores, con fecha, hora y tipo de operación, para diagnosticar fallas y detectar usos indebidos.</li>
+    <li>Cookies de sesión y datos guardados en el navegador (ver el apartado 11).</li>
+  </ul>
+
+  <h2 id="finalidad">4. Para qué se usan</h2>
+  <ul>
+    <li>Prestar el servicio: agenda, planes, seguimiento, mensajería y portal del paciente.</li>
+    <li>Enviar los avisos que el consultorio configure: recordatorios de turno, bienvenida y recuperación de contraseña.</li>
+    <li>Sostener la seguridad de las cuentas y cumplir obligaciones legales.</li>
+    <li>Mejorar la plataforma a partir de métricas agregadas, que no identifican a ninguna persona.</li>
+  </ul>
+  <p>
+    <strong>Lo que no se hace:</strong> los datos no se venden, no se ceden con
+    fines publicitarios y no se usan para perfilar personas ni para entrenar
+    modelos de inteligencia artificial.
+  </p>
+
+  <h2 id="salud">5. Datos de salud</h2>
+  <p>
+    Buena parte de lo que se carga en NutriOffice son <strong>datos sensibles</strong>:
+    información de salud de una persona identificada. Eso implica tres cosas.
+  </p>
+  <ul>
+    <li>
+      El profesional debe contar con el consentimiento del paciente para
+      registrar y tratar esa información, y es quien mejor puede explicarle para
+      qué se usa.
+    </li>
+    <li>
+      El acceso está restringido por rol: un paciente solo ve sus propios datos,
+      y de su evaluación solo la parte que el profesional expone en el portal.
+      La historia clínica, los laboratorios y las alertas no se publican del
+      lado del paciente.
+    </li>
+    <li>
+      El personal de <span class="completar">[razón social]</span> no accede al
+      contenido clínico salvo pedido expreso del profesional para resolver un
+      problema puntual, y con registro de ese acceso.
+    </li>
+  </ul>
+
+  <h2 id="terceros">6. Con quién se comparten</h2>
+  <p>
+    Solo con los proveedores necesarios para que el servicio funcione, y
+    únicamente con lo que cada uno necesita:
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Proveedor</th>
+        <th>Para qué</th>
+        <th>Qué recibe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="completar">[proveedor de hosting]</span></td>
+        <td>Servidores y base de datos</td>
+        <td>Todo lo alojado, cifrado en tránsito</td>
+      </tr>
+      <tr>
+        <td>Meta (WhatsApp Cloud API)</td>
+        <td>Recordatorios y mensajes, si el consultorio la conecta</td>
+        <td>Teléfono del paciente y el texto del mensaje</td>
+      </tr>
+      <tr>
+        <td>Google</td>
+        <td>Sincronización de turnos con el calendario del profesional</td>
+        <td>Fecha, hora y referencia del turno</td>
+      </tr>
+      <tr>
+        <td>Anthropic, OpenAI u OpenRouter</td>
+        <td>Funciones de inteligencia artificial, si se activan</td>
+        <td>Solo el texto o el audio de cada pedido (ver el apartado 7)</td>
+      </tr>
+      <tr>
+        <td><span class="completar">[proveedor de correo]</span></td>
+        <td>Envío de correos del sistema</td>
+        <td>Dirección de correo y contenido del mensaje</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Si el consultorio no conecta un servicio, no se le envía nada. WhatsApp,
+    Google y la inteligencia artificial son opcionales y vienen desactivados.
+  </p>
+
+  <h2 id="ia">7. Inteligencia artificial</h2>
+  <p>
+    Las funciones asistidas por IA se activan cargando una clave propia del
+    consultorio. Mientras no haya clave, no se envía nada a ningún proveedor de
+    modelos.
+  </p>
+  <ul>
+    <li>
+      Se envía <strong>solo lo que la función necesita</strong>: el documento
+      que se está interpretando, el audio que se transcribe o la pregunta del
+      chat con los datos que ésta requiera.
+    </li>
+    <li>
+      Lo que el modelo devuelve <strong>nunca se guarda solo</strong>: precarga
+      un formulario que el profesional revisa y confirma. Un dato clínico no
+      entra en una ficha sin que alguien lo valide.
+    </li>
+    <li>
+      Los contenidos enviados no se utilizan para entrenar modelos. Las
+      condiciones de cada proveedor están en sus propios términos, y la clave
+      con la que se los usa es del consultorio.
+    </li>
+  </ul>
+
+  <h2 id="conservacion">8. Dónde se guardan y por cuánto tiempo</h2>
+  <p>
+    Los datos se alojan en servidores de <span class="completar">[proveedor]</span>
+    ubicados en <span class="completar">[país o región]</span>. Las copias de
+    respaldo se conservan durante <span class="completar">[plazo]</span> y están
+    cifradas.
+  </p>
+  <p>
+    Los datos de un paciente se conservan mientras el profesional mantenga
+    activa su cuenta, y durante los plazos que la normativa sanitaria imponga a
+    una historia clínica. Dada de baja la cuenta, se eliminan dentro de los
+    <span class="completar">[plazo]</span> días siguientes, salvo lo que haya
+    que conservar por obligación legal.
+  </p>
+
+  <h2 id="seguridad">9. Seguridad</h2>
+  <ul>
+    <li>Todo el tráfico viaja cifrado con HTTPS.</li>
+    <li>Las contraseñas se guardan con un algoritmo de hash de un solo sentido: no se pueden leer, ni siquiera desde adentro.</li>
+    <li>Las sesiones son cortas y se acompañan de un token de renovación revocable; ante un uso sospechoso, se dan de baja todas las sesiones de esa cadena.</li>
+    <li>Los archivos no se sirven por enlaces públicos: cada descarga pasa por la aplicación, que verifica quién la pide.</li>
+    <li>El aislamiento entre consultorios se aplica en la capa de datos y no en cada consulta: ante la duda, la operación falla en lugar de devolver información de más.</li>
+  </ul>
+  <p>
+    Ningún sistema es infalible. Si ocurriera un incidente que afecte datos
+    personales, se notificará a los profesionales afectados y a la autoridad de
+    control cuando corresponda.
+  </p>
+
+  <h2 id="derechos">10. Derechos de las personas</h2>
+  <p>
+    Toda persona puede acceder a sus datos, pedir que se rectifiquen los
+    inexactos, solicitar su supresión y oponerse a determinados tratamientos.
+  </p>
+  <ul>
+    <li>
+      <strong>Si sos paciente:</strong> el pedido va a tu nutricionista, que es
+      quien decide sobre tu ficha. Desde el portal ya podés ver buena parte de
+      lo que hay cargado.
+    </li>
+    <li>
+      <strong>Si sos profesional:</strong> escribí a
+      <a href="mailto:hola@nutrioffice.app">hola@nutrioffice.app</a>. Los
+      listados de pacientes y turnos se exportan a Excel desde la propia
+      aplicación, y la baja de la cuenta se puede pedir en cualquier momento.
+    </li>
+  </ul>
+  <p>
+    En Argentina, la autoridad de control es la Agencia de Acceso a la
+    Información Pública, ante la que se puede presentar un reclamo si un pedido
+    no fue atendido.
+  </p>
+
+  <h2 id="cookies">11. Cookies y almacenamiento local</h2>
+  <p>
+    Este sitio de presentación no usa cookies de seguimiento ni de publicidad.
+    Guarda una única preferencia en el navegador —el tema claro u oscuro— que no
+    sale del dispositivo.
+  </p>
+  <p>La aplicación sí usa cookies, todas necesarias para funcionar:</p>
+  <ul>
+    <li><strong>De sesión:</strong> mantienen la sesión iniciada y se borran al cerrarla.</li>
+    <li><strong>De renovación:</strong> permiten seguir conectado sin volver a escribir la contraseña, y se revocan al salir.</li>
+  </ul>
+
+  <h2 id="menores">12. Menores de edad</h2>
+  <p>
+    Cuando el paciente es menor de edad, el acceso al portal y el consentimiento
+    para el tratamiento de sus datos corresponden a su madre, padre o
+    representante legal, en los términos que el profesional acuerde con la
+    familia.
+  </p>
+
+  <h2 id="cambios">13. Cambios en esta política</h2>
+  <p>
+    Si cambia algo relevante, se actualiza la fecha del encabezado y se avisa a
+    los profesionales con cuenta activa por correo electrónico, con antelación
+    razonable a la entrada en vigencia.
+  </p>
+
+  <h2 id="contacto">14. Contacto</h2>
+  <p>
+    Por cualquier duda sobre esta política o sobre el tratamiento de datos:
+    <a href="mailto:hola@nutrioffice.app">hola@nutrioffice.app</a>.
+  </p>
+</Texto>
