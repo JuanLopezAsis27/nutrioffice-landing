@@ -8,12 +8,15 @@
 # todavía no hay secretos cargados—.
 #
 #   npm run build && npm run verificar
-#   VPS_HOST=1.2.3.4 VPS_USUARIO=deploy \
+#   VPS_HOST=1.2.3.4 VPS_USUARIO=deploy VPS_PUERTO=2222 \
 #     VPS_RUTA=/home/deploy/apps/nutrioffice-landing \
 #     ./scripts/publicar.sh
 #
 # O dejando las variables en un archivo `.env.despliegue` (que está ignorado
-# por git) y corriendo `./scripts/publicar.sh` a secas.
+# por git) y corriendo `./scripts/publicar.sh` a secas. En Windows es lo más
+# cómodo: PowerShell no entiende el `VAR=valor comando` de arriba.
+#
+# Solo necesita bash, ssh y tar: anda en Git Bash tal cual.
 # =============================================================================
 set -euo pipefail
 
@@ -25,7 +28,7 @@ cd "$(dirname "$0")/.."
 : "${VPS_HOST:?Falta VPS_HOST}"
 : "${VPS_USUARIO:?Falta VPS_USUARIO}"
 : "${VPS_RUTA:?Falta VPS_RUTA}"
-PUERTO="${VPS_PUERTO:-22}"
+PUERTO="${VPS_PUERTO:-2222}"
 
 if [ ! -d dist ]; then
   echo "No existe dist/. Corré 'npm run build' antes." >&2
@@ -39,7 +42,10 @@ DESTINO="$VPS_RUTA/releases/$VERSION"
 echo "==> Versión $VERSION"
 
 $SSH "$VPS_USUARIO@$VPS_HOST" "mkdir -p '$DESTINO'"
-rsync -az --delete --progress -e "$SSH" dist/ "$VPS_USUARIO@$VPS_HOST:$DESTINO/"
+# tar por ssh y no rsync: Git Bash en Windows no trae rsync. Como la carpeta de
+# la versión es nueva, no hay nada que sincronizar: alcanza con copiar.
+tar -C dist -czf - . | $SSH "$VPS_USUARIO@$VPS_HOST" \
+  "tar -xzf - -C '$DESTINO' && chmod -R a+rX '$DESTINO'"
 
 # El cambio de versión es un rename del enlace: o se ve la anterior o la nueva.
 $SSH "$VPS_USUARIO@$VPS_HOST" "

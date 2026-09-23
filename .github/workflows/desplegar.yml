@@ -14,7 +14,7 @@
 #   VPS_RUTA      Carpeta de la app, ej. /home/deploy/apps/nutrioffice-landing
 #   VPS_SSH_KEY   Clave PRIVADA de despliegue, entera (ver el README).
 #   VPS_HOST_KEY  La línea de known_hosts del VPS: `ssh-keyscan -H TU_HOST`.
-#   VPS_PUERTO    Opcional, si SSH no está en el 22.
+#   VPS_PUERTO    Puerto SSH del VPS. Si falta, se usa el 2222.
 #
 # Y como VARIABLE (no secreto), opcional:
 #   URL_SITIO     https://nutrioffice.com.ar — si está, se comprueba al final.
@@ -76,7 +76,7 @@ jobs:
           HOST: ${{ secrets.VPS_HOST }}
           USUARIO: ${{ secrets.VPS_USUARIO }}
           RUTA: ${{ secrets.VPS_RUTA }}
-          PUERTO: ${{ secrets.VPS_PUERTO || '22' }}
+          PUERTO: ${{ secrets.VPS_PUERTO || '2222' }}
         run: |
           set -euo pipefail
 
@@ -100,7 +100,7 @@ jobs:
           "
 
           echo "Publicada. Para volver atrás:"
-          echo "  ssh $USUARIO@$HOST \"ln -sfn $RUTA/releases/<anterior> $RUTA/current.nuevo && mv -Tf $RUTA/current.nuevo $RUTA/current\""
+          echo "  ssh -p $PUERTO $USUARIO@$HOST \"ln -sfn $RUTA/releases/<anterior> $RUTA/current.nuevo && mv -Tf $RUTA/current.nuevo $RUTA/current\""
 
       - name: Comprobar que el sitio responde
         if: vars.URL_SITIO != ''

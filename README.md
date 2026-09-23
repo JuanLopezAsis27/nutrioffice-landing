@@ -132,15 +132,28 @@ chmod -R a+rX ~/apps/nutrioffice-landing
 Se genera una clave **exclusiva para esto**, sin frase de paso (Actions no
 puede escribirla) y sin acceso a nada más:
 
+**En Windows, correlo en Git Bash**, no en PowerShell: PowerShell 5.1 no
+expande `~` para los programas externos, se come el `-N ""` y no trae
+`ssh-copy-id`. Git Bash trae los tres comandos. SSH del VPS está en el
+**2222**.
+
 ```bash
-# En tu máquina:
+# En tu máquina (Git Bash):
 ssh-keygen -t ed25519 -C "actions-landing" -f ~/.ssh/nutrioffice-landing -N ""
 
 # La PÚBLICA va al VPS, en el usuario de despliegue:
-ssh-copy-id -i ~/.ssh/nutrioffice-landing.pub deploy@TU_VPS
+ssh-copy-id -p 2222 -i ~/.ssh/nutrioffice-landing.pub deploy@TU_VPS
 
-# La línea de known_hosts, para que Actions verifique al servidor:
-ssh-keyscan -H TU_VPS
+# La línea de known_hosts, para que Actions verifique al servidor.
+# Con -p sale como [TU_VPS]:2222, que es como ssh la busca en ese puerto:
+ssh-keyscan -p 2222 -H TU_VPS
+```
+
+Si igual querés hacerlo desde PowerShell, el `ssh-copy-id` se reemplaza por:
+
+```powershell
+Get-Content "$env:USERPROFILE\.ssh\nutrioffice-landing.pub" |
+  ssh -p 2222 deploy@TU_VPS "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
 ```
 
 ### Los secretos de GitHub
@@ -153,8 +166,8 @@ En **Settings → Secrets and variables → Actions → New repository secret**:
 | `VPS_USUARIO`  | `deploy`                                                       |
 | `VPS_RUTA`     | `/home/deploy/apps/nutrioffice-landing`                        |
 | `VPS_SSH_KEY`  | El contenido de `~/.ssh/nutrioffice-landing` (la **privada**) |
-| `VPS_HOST_KEY` | La salida de `ssh-keyscan -H TU_VPS`                           |
-| `VPS_PUERTO`   | Solo si SSH no está en el 22                                   |
+| `VPS_HOST_KEY` | La salida de `ssh-keyscan -p 2222 -H TU_VPS`                   |
+| `VPS_PUERTO`   | `2222` (si falta, el workflow usa 2222 igual)                  |
 
 Y en la pestaña **Variables** (no es secreto, y así aparece en el log):
 
@@ -268,7 +281,7 @@ sudo certbot --nginx -d nutrioffice.com.ar -d www.nutrioffice.com.ar
 ### Volver a la versión anterior
 
 ```bash
-ssh deploy@TU_VPS
+ssh -p 2222 deploy@TU_VPS
 cd ~/apps/nutrioffice-landing
 ls -1dt releases/*/                 # la de arriba es la que está puesta
 ln -sfn "$PWD/releases/LA_ANTERIOR" current.nuevo && mv -Tf current.nuevo current
@@ -282,15 +295,32 @@ Sin compilar nada y sin tocar nginx: el sitio vuelve en el tiempo que tarda un
 Para el primer despliegue —cuando todavía no hay secretos cargados— o para un
 arreglo urgente con Actions caído:
 
+Las variables van en un `.env.despliegue` en la raíz (ignorado por git):
+
 ```bash
-VPS_HOST=TU_VPS VPS_USUARIO=deploy \
-  VPS_RUTA=/home/deploy/apps/nutrioffice-landing \
-  npm run publicar
+VPS_HOST=TU_VPS
+VPS_USUARIO=deploy
+VPS_PUERTO=2222
+VPS_RUTA=/home/deploy/apps/nutrioffice-landing
+```
+
+y después, desde PowerShell o Git Bash:
+
+```bash
+npm run publicar
 ```
 
 Hace lo mismo que el workflow: compila, verifica, sube una versión nueva y
-mueve el enlace. Las variables también se pueden dejar en un `.env.despliegue`
-(ignorado por git) y correr `npm run publicar` a secas.
+mueve el enlace. **Anda en Windows**: el script solo necesita `bash`, `ssh` y
+`tar`, que vienen con Git for Windows. Sube con `tar` por ssh en vez de `rsync`
+porque Git Bash no trae `rsync` (y como cada versión va a una carpeta nueva,
+no hay nada que sincronizar). Entra con tu clave SSH de siempre, no con la de
+Actions.
+
+> Si `npm run publicar` falla con algo de WSL, es que el `bash` que encuentra
+> primero en el PATH es el de `C:\Windows\System32` y no el de Git. Corré
+> `bash scripts/publicar.sh` desde Git Bash, después de `npm run build` y
+> `npm run verificar`.
 
 ### Qué revisa el CI
 
