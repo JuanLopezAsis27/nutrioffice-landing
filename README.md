@@ -199,6 +199,11 @@ server {
     listen [::]:443 ssl;
     http2 on;
     server_name www.nutrioffice.com.ar;
+
+    # Cada server en el 443 necesita su certificado, aunque solo redirija.
+    ssl_certificate     /etc/letsencrypt/live/nutrioffice.com.ar/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/nutrioffice.com.ar/privkey.pem;
+
     return 301 https://nutrioffice.com.ar$request_uri;
 }
 
@@ -213,9 +218,9 @@ server {
     root /home/deploy/apps/nutrioffice-landing/current;
     index index.html;
 
-    # certbot completa estas dos líneas al correr `certbot --nginx`:
-    # ssl_certificate     /etc/letsencrypt/live/nutrioffice.com.ar/fullchain.pem;
-    # ssl_certificate_key /etc/letsencrypt/live/nutrioffice.com.ar/privkey.pem;
+    # Los emite certbot (ver abajo: primero el certificado, después este archivo).
+    ssl_certificate     /etc/letsencrypt/live/nutrioffice.com.ar/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/nutrioffice.com.ar/privkey.pem;
 
     gzip on;
     gzip_types text/css application/javascript image/svg+xml application/json;
@@ -257,13 +262,39 @@ add_header X-Frame-Options "SAMEORIGIN" always;
 add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 ```
 
-Activar y emitir el certificado:
+Activar y emitir el certificado. **El orden importa:** los bloques `443` de
+arriba necesitan un certificado que todavía no existe, y con ellos puestos
+`nginx -t` falla. Primero va un `server` solo en el 80, certbot emite el
+certificado, y recién ahí se pone la configuración completa:
 
 ```bash
+# 0. El DNS de nutrioffice.com.ar y www ya tiene que apuntar al VPS.
+
+# 1. Configuración provisoria, solo http, para que certbot pueda validar:
+sudo tee /etc/nginx/sites-available/nutrioffice-landing > /dev/null <<'EOF'
+server {
+    listen 80;
+    listen [::]:80;
+    server_name nutrioffice.com.ar www.nutrioffice.com.ar;
+    root /home/deploy/apps/nutrioffice-landing/current;
+}
+EOF
 sudo ln -s /etc/nginx/sites-available/nutrioffice-landing /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d nutrioffice.com.ar -d www.nutrioffice.com.ar
+
+# 2. El certificado. `certonly` lo emite sin tocar la configuración:
+sudo certbot certonly --nginx -d nutrioffice.com.ar -d www.nutrioffice.com.ar
+
+# 3. Ahora sí, la configuración completa de arriba, con las dos líneas
+#    (reemplaza a la provisoria entera):
+sudo nano /etc/nginx/sites-available/nutrioffice-landing
+sudo nginx -t && sudo systemctl reload nginx
 ```
+
+Si `nginx -t` se queja de `unknown directive "http2"`, el nginx es anterior a
+la 1.25: se borran las líneas `http2 on;` y se escribe `listen 443 ssl http2;`
+en su lugar. La renovación del certificado la hace sola el temporizador que
+instala certbot.
 
 **Tres detalles de nginx que se pasan por alto:**
 
