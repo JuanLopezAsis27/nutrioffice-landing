@@ -2,6 +2,9 @@ node_modules/
 dist/
 .astro/
 
+# Configuración del despliegue a mano (lleva host y usuario del VPS)
+.env.despliegue
+
 # Windows / editores
 Thumbs.db
 .DS_Store

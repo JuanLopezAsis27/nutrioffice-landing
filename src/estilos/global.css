@@ -338,10 +338,6 @@ svg {
   font-weight: 800;
 }
 
-.marca img {
-  border-radius: 9px;
-}
-
 .nav {
   display: flex;
   align-items: center;

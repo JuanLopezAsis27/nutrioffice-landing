@@ -19,6 +19,8 @@ npm install     # una vez
 npm run dev     # http://localhost:4321, con recarga en caliente
 npm run build   # genera dist/
 npm run preview # sirve dist/ como lo haría un servidor real
+npm run verificar  # revisa el dist/ compilado (lo mismo que corre el CI)
+npm run publicar   # compila, verifica y sube al VPS a mano
 ```
 
 ## Las páginas
@@ -52,6 +54,12 @@ src/
     interacciones.js
 public/
   recursos/       <- se copia tal cual a la raíz del sitio publicado
+scripts/
+  verificar-sitio.mjs  <- lo que corre el CI sobre dist/
+  publicar.sh          <- despliegue a mano, mismo procedimiento que Actions
+.github/workflows/
+  ci.yml          <- ramas y pull requests: compila y verifica
+  desplegar.yml   <- main: compila, verifica y publica
 ```
 
 **Dónde va cada estilo:** lo que se repite en toda la página —colores,
@@ -64,30 +72,257 @@ principio del archivo (mirá `Modulos.astro` o `Preguntas.astro`). Para sumar un
 módulo o una pregunta se agrega un objeto a esa lista y listo: no hay que tocar
 el HTML ni el CSS.
 
-## Publicarlo
+## Publicarlo: CI/CD desde GitHub
 
-`npm run build` deja todo en `dist/`. Son archivos estáticos: se copian y listo.
+**Cada push a `main` publica el sitio.** No hay que correr nada a mano.
 
-- **nginx en el VPS** (el mismo host donde corre la app, ver
-  `nutricionista-app/docs/DESPLIEGUE.md`): un `server` aparte con `root`
-  apuntando a `dist/`.
-- **Netlify, Vercel, Cloudflare Pages**: detectan Astro solos. Comando
-  `npm run build`, carpeta `dist`.
+```
+push a main
+   ↓
+GitHub Actions: npm ci → npm run build → npm run verificar
+   ↓  (si algo falla acá, no se toca el servidor)
+rsync de dist/ → VPS:  apps/nutrioffice-landing/releases/<fecha>-<sha>/
+   ↓
+mv del enlace `current` → la versión nueva     ← el sitio cambia acá, de golpe
+   ↓
+curl al dominio para confirmar que responde
+```
+
+El sitio es estático, así que **nginx no hace de reverse proxy: sirve los
+archivos él mismo**. El proxy inverso es cosa de la app
+(`app.nutrioffice.com.ar`), que es un proceso Node en Docker; la landing no
+tiene proceso que proxear.
+
+### Por qué una carpeta por versión y un enlace
+
+Subir con `rsync` encima de la carpeta que nginx está sirviendo deja una
+ventana —corta, pero real— en la que hay archivos nuevos y viejos mezclados: el
+HTML nuevo pidiendo un `_astro/` que todavía no subió, y el visitante mirando
+una página rota.
+
+Con una carpeta por versión, la subida no toca nada de lo que se está
+sirviendo. Cambiar de versión es mover un enlace simbólico, que en Linux es un
+`rename(2)`: **atómico**. Se ve la anterior o la nueva, nunca media subida. Y
+volver atrás es mover el enlace de nuevo, sin compilar.
+
+```
+/home/deploy/apps/nutrioffice-landing/
+├── current -> releases/20260922-141230-a1b2c3d     ← lo que mira nginx
+└── releases/
+    ├── 20260922-141230-a1b2c3d/
+    ├── 20260922-103015-9f8e7d6/
+    └── …                                           (se guardan las 5 últimas)
+```
+
+### Preparar el VPS (una sola vez)
+
+```bash
+# Como el usuario de despliegue, siguiendo la convención del resto de tus apps:
+mkdir -p ~/apps/nutrioffice-landing/releases
+
+# nginx corre como www-data y tiene que poder ATRAVESAR el home para llegar al
+# sitio. Sin esto da 403 y el error de nginx dice "Permission denied" sobre una
+# ruta que existe y se lee perfecto desde tu sesión.
+chmod o+x /home/deploy /home/deploy/apps
+chmod -R a+rX ~/apps/nutrioffice-landing
+```
+
+### La clave de despliegue
+
+Se genera una clave **exclusiva para esto**, sin frase de paso (Actions no
+puede escribirla) y sin acceso a nada más:
+
+```bash
+# En tu máquina:
+ssh-keygen -t ed25519 -C "actions-landing" -f ~/.ssh/nutrioffice-landing -N ""
+
+# La PÚBLICA va al VPS, en el usuario de despliegue:
+ssh-copy-id -i ~/.ssh/nutrioffice-landing.pub deploy@TU_VPS
+
+# La línea de known_hosts, para que Actions verifique al servidor:
+ssh-keyscan -H TU_VPS
+```
+
+### Los secretos de GitHub
+
+En **Settings → Secrets and variables → Actions → New repository secret**:
+
+| Secreto        | Qué va                                                        |
+| -------------- | ------------------------------------------------------------- |
+| `VPS_HOST`     | IP o dominio del VPS                                           |
+| `VPS_USUARIO`  | `deploy`                                                       |
+| `VPS_RUTA`     | `/home/deploy/apps/nutrioffice-landing`                        |
+| `VPS_SSH_KEY`  | El contenido de `~/.ssh/nutrioffice-landing` (la **privada**) |
+| `VPS_HOST_KEY` | La salida de `ssh-keyscan -H TU_VPS`                           |
+| `VPS_PUERTO`   | Solo si SSH no está en el 22                                   |
+
+Y en la pestaña **Variables** (no es secreto, y así aparece en el log):
+
+| Variable     | Qué va                        |
+| ------------ | ----------------------------- |
+| `URL_SITIO`  | `https://nutrioffice.com.ar`  |
+
+> **`VPS_HOST_KEY` y no un `ssh-keyscan` dentro del workflow.** Escanear en cada
+> corrida es confiar en quien conteste en ese momento, que es exactamente lo
+> que la verificación del host existe para evitar. Con el secreto, si un día el
+> servidor que contesta no es el tuyo, el despliegue falla en vez de subirle
+> los archivos.
+
+### El `server` de nginx
+
+`/etc/nginx/sites-available/nutrioffice-landing`:
 
 ```nginx
+# http → https, y www → sin www (una sola URL canónica).
 server {
+    listen 80;
+    listen [::]:80;
+    server_name nutrioffice.com.ar www.nutrioffice.com.ar;
+    return 301 https://nutrioffice.com.ar$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+    server_name www.nutrioffice.com.ar;
+    return 301 https://nutrioffice.com.ar$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
     server_name nutrioffice.com.ar;
-    root /var/www/pagina-presentacion/dist;
+
+    # El enlace que mueve el despliegue. nginx lo resuelve en cada pedido, así
+    # que la versión nueva entra sin recargar nada.
+    root /home/deploy/apps/nutrioffice-landing/current;
     index index.html;
 
-    location / {
-        try_files $uri $uri/ /404.html;
+    # certbot completa estas dos líneas al correr `certbot --nginx`:
+    # ssl_certificate     /etc/letsencrypt/live/nutrioffice.com.ar/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/nutrioffice.com.ar/privkey.pem;
+
+    gzip on;
+    gzip_types text/css application/javascript image/svg+xml application/json;
+    gzip_min_length 1024;
+
+    # Los archivos de _astro/ llevan el hash del contenido en el nombre: si el
+    # contenido cambia, cambia la URL. Se pueden cachear para siempre.
+    location /_astro/ {
+        include snippets/cabeceras-landing.conf;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
     }
+
+    location /recursos/ {
+        include snippets/cabeceras-landing.conf;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    # El HTML NO se cachea: es lo que trae las referencias nuevas a los assets.
+    # Sin esto, alguien que ya visitó el sitio sigue viendo la versión vieja.
+    location / {
+        include snippets/cabeceras-landing.conf;
+        add_header Cache-Control "no-cache";
+        try_files $uri $uri/ =404;
+    }
+
+    error_page 404 /404.html;
 }
 ```
 
-Antes de publicar, cambiá `site` en `astro.config.mjs`: de ahí salen la URL
-canónica y las de las metaetiquetas para redes.
+`/etc/nginx/snippets/cabeceras-landing.conf`:
+
+```nginx
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+```
+
+Activar y emitir el certificado:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/nutrioffice-landing /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+sudo certbot --nginx -d nutrioffice.com.ar -d www.nutrioffice.com.ar
+```
+
+**Tres detalles de nginx que se pasan por alto:**
+
+- **Las cabeceras van en un snippet incluido, no sueltas en el `server`.** nginx
+  hereda los `add_header` del nivel de arriba **solo si el bloque de abajo no
+  define ninguno**. Como los tres `location` definen su propio `Cache-Control`,
+  las cabeceras de seguridad del `server` se perderían justo ahí, en silencio.
+- **`try_files … =404` y no `… /404.html`.** Con `=404` más `error_page`, una
+  dirección inexistente muestra la página 404 del sitio **con estado 404 de
+  verdad**. Apuntando directo al archivo se sirve con 200 y Google la indexa
+  como si fuera contenido.
+- **El `root` apunta al enlace `current`, no a una carpeta fija.** Si apunta a
+  una release concreta, el despliegue sube archivos que nadie sirve.
+
+### Volver a la versión anterior
+
+```bash
+ssh deploy@TU_VPS
+cd ~/apps/nutrioffice-landing
+ls -1dt releases/*/                 # la de arriba es la que está puesta
+ln -sfn "$PWD/releases/LA_ANTERIOR" current.nuevo && mv -Tf current.nuevo current
+```
+
+Sin compilar nada y sin tocar nginx: el sitio vuelve en el tiempo que tarda un
+`mv`.
+
+### Publicar a mano
+
+Para el primer despliegue —cuando todavía no hay secretos cargados— o para un
+arreglo urgente con Actions caído:
+
+```bash
+VPS_HOST=TU_VPS VPS_USUARIO=deploy \
+  VPS_RUTA=/home/deploy/apps/nutrioffice-landing \
+  npm run publicar
+```
+
+Hace lo mismo que el workflow: compila, verifica, sube una versión nueva y
+mueve el enlace. Las variables también se pueden dejar en un `.env.despliegue`
+(ignorado por git) y correr `npm run publicar` a secas.
+
+### Qué revisa el CI
+
+`npm run verificar` (`scripts/verificar-sitio.mjs`) corre sobre el `dist/` ya
+compilado y **falla el despliegue** si encuentra:
+
+- Etiquetas mal cerradas o cruzadas.
+- `id` repetidos en una página.
+- Íconos usados con `<use href="#i-…">` que no tienen su `<symbol>`.
+- Anclas internas que apuntan a un id que no existe.
+- Reglas CSS con alcance de Astro que no le pegan a ningún elemento.
+
+Las cinco son cosas que compilan perfecto y se rompen en silencio. La última ya
+pasó una vez: estilar en un componente una clase que en realidad se dibuja
+adentro de otro, con lo que Astro le agrega un atributo de alcance que nunca
+coincide y la regla no hace nada.
+
+En una **pull request** corre el mismo build y deja el sitio compilado como
+artefacto descargable, para poder mirarlo sin compilarlo en la máquina propia.
+
+### Si preferís no tocar un servidor
+
+**Netlify, Vercel o Cloudflare Pages** detectan Astro solos: comando
+`npm run build`, carpeta `dist`. Se conecta el repositorio y cada push publica,
+sin secretos ni workflows. Es menos trabajo que lo de arriba; la contra es
+depender de un tercero para algo que el VPS ya está haciendo.
+
+### Antes del primer despliegue
+
+Revisá que `site` en `astro.config.mjs` sea el dominio real
+(`https://nutrioffice.com.ar`): de ahí salen la URL canónica de cada página y
+las de las metaetiquetas para redes.
 
 ## Por qué se ve como la app
 
@@ -117,38 +352,56 @@ inventados**: es una ilustración, no una captura.
 
 ## La marca
 
-El logo vigente es **un solo archivo**: `public/recursos/marca.svg`, que usan
-la cabecera, el pie y el favicon. Hoy está puesta la propuesta **«el plato»**.
+El isotipo es **anillo, manzana y pesa**: la nutrición y el deporte, que son las
+dos mitades del consultorio.
 
-En `public/recursos/marcas/` hay seis propuestas, todas con el mismo coral, el
-mismo grosor de trazo y construidas con geometría (arcos y rectas) para que
-sean simétricas y aguanten el tamaño chico:
+**Tiene dos tintas.** El coral es fijo —el anillo grueso, la manzana y la hoja—.
+La segunda tinta, el anillo fino exterior y la pesa, **se adapta al fondo**:
+casi negra sobre claro, blanca sobre oscuro. Por eso la marca va **en línea**
+(`src/componentes/Marca.astro`) y no como `<img>`: así hereda `currentColor` de
+la página y un solo archivo sirve para los dos temas. Desde un `<img>` habría
+que mantener dos versiones y acordarse de cambiar las dos.
 
-| Archivo          | Qué es                                                |
-| ---------------- | ----------------------------------------------------- |
-| `plato.svg`      | El método del plato: mitad, cuarto y cuarto           |
-| `hoja.svg`       | Hoja geométrica con nervadura                         |
-| `pulso.svg`      | El latido en un círculo (evolución del ícono anterior) |
-| `anillo.svg`     | Anillo de progreso con punto al centro                |
-| `monograma.svg`  | Una N con punto, como logotipo                        |
-| `tazon.svg`      | Un bol con un brote                                   |
+| Archivo                                  | Qué es                                        | Dónde se usa                                   |
+| ---------------------------------------- | --------------------------------------------- | ---------------------------------------------- |
+| `src/componentes/Marca.astro`            | El isotipo en línea, segunda tinta adaptable   | Cabecera y pie                                  |
+| `public/recursos/marca.svg`              | El isotipo sobre cuadrado oscuro redondeado    | Favicon y metaetiquetas sociales                |
+| `marcas/nutrioffice.svg`                 | Suelto, con la tinta en blanco                 | Fondos oscuros; fuente de los íconos de la app  |
+| `marcas/nutrioffice-tinta-oscura.svg`    | Suelto, con la tinta en casi negro             | Fondos claros: membrete, PDF del plan           |
+| `marcas/nutrioffice-simple.svg`          | Solo anillo y manzana, trazo más grueso        | Por debajo de 32 px, donde la pesa se empasta   |
 
-Para cambiar de marca se copia una encima de la vigente:
+### De dónde salió
 
-```bash
-cp public/recursos/marcas/hoja.svg public/recursos/marca.svg
-```
+La lámina que entregó el diseño es un SVG de 3,8 MB que trae el símbolo como
+**PNG incrustado**, no como vector: es un envoltorio alrededor de un bitmap de
+594×469. Lo que hay en el repositorio es un **redibujo**: se midió ese bitmap
+pieza por pieza —radios, grosores, alturas de los discos de la pesa, silueta de
+la manzana— y se reconstruyó con círculos, rectángulos y curvas. Las medidas
+coinciden con la referencia dentro de dos décimas en una caja de 64.
 
-**`/marca/` es la página para elegir**: muestra cada propuesta grande, a 48, 32
-y 16 píxeles, como ícono de app (blanca sobre coral), sobre fondo claro y al
-lado del nombre, con lo que cada una tiene a favor y en contra. No está
-enlazada desde ningún lado y lleva `noindex`; cuando haya una elegida, se borra
-el archivo y listo.
+Tres detalles del dibujo que no son evidentes y conviene no "arreglar":
 
-Falta, cuando la marca esté definida: la versión de una tinta para el membrete
-y el PDF del plan, y los PNG de 192 y 512 píxeles para reemplazar los íconos de
-la PWA de la app (`nutricionista-app/public/iconos/`), que hoy llevan el logo
-del consultorio y no el del producto.
+- El **anillo fino son dos arcos**, no un círculo: queda interrumpido donde pasa
+  la pesa, y ese corte es parte del dibujo.
+- La **pesa va por encima** de los anillos, cruzándolos.
+- La **manzana es una silueta propia**. La `apple` de lucide es un contorno y,
+  rellena, deja una muesca superior mucho más profunda que la de la marca.
+
+**Los íconos de la aplicación salen de acá.** `nutrioffice.svg` está copiado en
+`nutricionista-app/assets/marca/marca.svg`, y
+`scripts/generar-iconos-pwa.mjs` genera desde ahí los cuatro PNG de la PWA, el
+apple-icon, el icon de la pestaña y el favicon.ico: la marca sobre un cuadrado
+**oscuro**, que es la versión oscura de la lámina. Sobre coral no funcionaría,
+porque el anillo y la manzana también son corales. Si la marca cambia acá, hay
+que copiar los SVG allá y volver a correr ese script.
+
+**`/marca/` es la página de trabajo de la marca**: muestra el isotipo sobre los
+dos fondos a 56, 32, 24 y 16 píxeles, al lado del nombre, la tabla de archivos y
+las propuestas que se descartaron antes de que llegara esta. No está enlazada
+desde ningún lado y lleva `noindex`.
+
+Falta todavía la **versión de una tinta** (todo en negro o todo en blanco, sin
+coral) para impresión a un color.
 
 ## Lo que se mueve
 
@@ -186,11 +439,15 @@ nada.
 
 ## Qué tocar cuando cambie algo
 
-- **El logo** → `public/recursos/marca.svg` (ver «La marca»). **El nombre** →
-  los dos `.marca` de `Cabecera.astro` y `Pie.astro`.
-- **El correo de contacto** → `Cierre.astro`, `Pie.astro` y las dos páginas
-  legales. Hoy es `hola@nutrioffice.com.ar`, que es un marcador: la política
-  de privacidad declara como contacto `nicolasis14@hotmail.com`.
+- **El logo** → `src/componentes/Marca.astro` (el que se ve en pantalla) y
+  `public/recursos/marca.svg` (el favicon). Ver «La marca»: son cinco archivos
+  y cada uno tiene su lugar. **El nombre** → los dos `.marca` de
+  `Cabecera.astro` y `Pie.astro`.
+- **El correo de contacto — PENDIENTE DE DECIDIR.** Hoy conviven dos: la
+  política de privacidad declara `nicolasis14@hotmail.com` (es el texto legal
+  aprobado) y el resto del sitio usa `hola@nutrioffice.com.ar`, que es un
+  marcador. Cuando esté definido cuál va, se unifica en `Cierre.astro`,
+  `Pie.astro` y las dos páginas legales.
 - **Los colores** → `:root` en `global.css` es el tema oscuro (el de casa) y
   `:root[data-tema="claro"]` es el claro. Los dos bloques tienen los mismos
   nombres de variable.

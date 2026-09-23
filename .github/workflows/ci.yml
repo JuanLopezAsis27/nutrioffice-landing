@@ -1,0 +1,47 @@
+# Integración continua: compila el sitio y lo revisa.
+#
+# No corre en `main` porque ahí corre el workflow de despliegue, que hace
+# exactamente lo mismo antes de subir nada. Duplicarlo sería pagar dos veces el
+# mismo build para enterarse de lo mismo.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+jobs:
+  construir:
+    name: Compilar y verificar
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # `npm ci` y no `npm install`: instala exactamente lo que dice el
+      # package-lock y falla si el lock quedó desfasado del package.json.
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar
+        run: npm run build
+
+      # Acá se atajan las cosas que el build no ve: anclas rotas, ids
+      # repetidos, íconos sin símbolo y reglas CSS que no le pegan a nada.
+      - name: Verificar el sitio compilado
+        run: npm run verificar
+
+      # Queda para descargar desde la pestaña de la ejecución: sirve para mirar
+      # el resultado de una rama sin tener que compilar en la máquina propia.
+      - name: Guardar el sitio compilado
+        uses: actions/upload-artifact@v4
+        with:
+          name: sitio-${{ github.sha }}
+          path: dist/
+          retention-days: 7

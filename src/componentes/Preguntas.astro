@@ -3,39 +3,42 @@ import Icono from "./Icono.astro";
 
 const preguntas = [
   {
-    pregunta: "¿Los datos de mi consultorio están separados de los de otros profesionales?",
+    pregunta:
+      "¿Los datos de cada consultorio están separados de los del resto?",
     respuesta:
-      "Sí. Cada consultorio es un inquilino con sus propias filas, y el filtro no depende de que cada consulta se acuerde de aplicarlo: lo aplica una capa por debajo, igual para todas. Si por lo que fuera no hay consultorio en contexto, la consulta falla en lugar de devolver datos de más.",
+      "Sí. Cada consultorio constituye una instancia aislada, y el filtro no depende de que cada consulta lo aplique: se aplica en una capa inferior, igual para todas. Ante la ausencia de contexto de consultorio, la consulta falla en lugar de devolver información de más.",
   },
   {
-    pregunta: "¿Tengo que instalar algo?",
+    pregunta: "¿Requiere instalación?",
     respuesta:
-      "No. Se usa en el navegador. Si querés, se instala como aplicación en Windows, Mac, Android o iPhone y queda con su ícono y su ventana propia, pero es el mismo sitio: no hay una versión que actualizar aparte.",
+      "No. Se utiliza desde el navegador. De manera opcional se instala como aplicación en Windows, Mac, Android o iPhone, con ícono y ventana propios, pero se trata del mismo sitio: no existe una versión que actualizar por separado.",
   },
   {
-    pregunta: "¿Puedo usarla sin la parte de inteligencia artificial?",
+    pregunta:
+      "¿Puede utilizarse sin las funciones de inteligencia artificial?",
     respuesta:
-      "Sí. La IA se activa cargando tu propia clave de Anthropic, OpenAI u OpenRouter. Sin clave, esas funciones quedan apagadas y el resto de la aplicación funciona igual. Nunca vas a ver un dato de demostración guardado en una ficha.",
+      "Sí. Se activan cargando una clave propia de Anthropic, OpenAI u OpenRouter. Sin clave permanecen desactivadas y el resto del sistema opera con normalidad. En ningún caso se almacena un dato de demostración en una ficha.",
   },
   {
-    pregunta: "¿Hace falta dar de alta la API oficial de WhatsApp?",
+    pregunta: "¿Es necesario dar de alta la API oficial de WhatsApp?",
     respuesta:
-      "No. Sin ella, los recordatorios abren el chat con el mensaje ya escrito y lo enviás vos desde tu teléfono. Con la Cloud API conectada, salen solos desde el número del consultorio y las respuestas del paciente aparecen en su ficha.",
+      "No. Sin ella, los recordatorios abren el chat con el mensaje ya redactado y el envío queda a cargo del profesional. Con la Cloud API conectada se emiten automáticamente desde el número del consultorio y las respuestas del paciente se incorporan a su ficha.",
   },
   {
-    pregunta: "¿Puedo traer mi planilla de antropometrías?",
+    pregunta:
+      "¿Es posible migrar una planilla de antropometrías existente?",
     respuesta:
-      "Sí. Se sube el Excel con una columna por consulta, la IA lo lee y arma una tabla de revisión. Nada se guarda hasta que confirmás, y una fecha repetida o una medida fuera de rango se informan sin tirar abajo las demás columnas.",
+      "Sí. Se incorpora la hoja de cálculo con una columna por consulta, el sistema la interpreta y arma una tabla de revisión. Nada se guarda hasta la confirmación, y una fecha repetida o una medida fuera de rango se informan sin invalidar las demás columnas.",
   },
   {
-    pregunta: "¿Sirve si atiendo en más de un lugar?",
+    pregunta: "¿Contempla la atención en más de un establecimiento?",
     respuesta:
-      "Sí. Los establecimientos son parte del modelo: cada sede lleva su agenda —días, horario, duración y paso del turno— y el turno guarda dónde se atendió. El paciente no queda atado a una sede.",
+      "Sí. Los establecimientos forman parte del modelo: cada sede mantiene su agenda —días, horario, duración y paso del turno— y cada turno registra dónde se atendió. El paciente no queda asociado a una sede en particular.",
   },
   {
-    pregunta: "¿Y si algún día dejo de usarla?",
+    pregunta: "¿Qué ocurre con la información al dar de baja la cuenta?",
     respuesta:
-      "Los listados de pacientes y de turnos se exportan a Excel desde la propia aplicación, y podés pedir la baja de la cuenta y el borrado de los datos cuando quieras. Lo que cargaste es tuyo.",
+      "Los listados de pacientes y de turnos se exportan a hoja de cálculo desde el propio sistema, y la baja de la cuenta junto con la eliminación de los datos puede solicitarse en cualquier momento. La información cargada pertenece al consultorio.",
   },
 ];
 ---
@@ -44,7 +47,7 @@ const preguntas = [
   <div class="contenedor">
     <header class="encabezado-seccion revelar">
       <p class="etiqueta-seccion">Preguntas frecuentes</p>
-      <h2>Lo que suelen preguntar antes de empezar</h2>
+      <h2>Consultas frecuentes</h2>
     </header>
 
     <div class="lista-preguntas">

@@ -1,5 +1,6 @@
 ---
 import Icono from "./Icono.astro";
+import Marca from "./Marca.astro";
 
 interface Props {
   /** Las páginas de texto no tienen secciones propias: en vez del menú, vuelven. */
@@ -21,7 +22,7 @@ const secciones = [
 <header class="cabecera" id="cabecera">
   <div class="contenedor cabecera-fila">
     <a class="marca" href="/">
-      <img src="/recursos/marca.svg" alt="" width="34" height="34" />
+      <Marca ancho={44} />
       <span>Nutri<b>Office</b></span>
     </a>
 
@@ -54,7 +55,7 @@ const secciones = [
       </button>
 
       <a class="boton boton-primario oculto-movil" href="/#contacto">
-        Pedir una demo
+        Solicitar demostración
       </a>
 
       {

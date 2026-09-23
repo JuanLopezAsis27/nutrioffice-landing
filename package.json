@@ -8,7 +8,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "verificar": "node scripts/verificar-sitio.mjs",
+    "publicar": "npm run build && npm run verificar && bash scripts/publicar.sh"
   },
   "devDependencies": {
     "astro": "^7.3.3"

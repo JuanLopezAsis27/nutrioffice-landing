@@ -1,5 +1,6 @@
 ---
 import Icono from "./Icono.astro";
+import Marca from "./Marca.astro";
 
 const producto = [
   { href: "/#modulos", texto: "Funciones" },
@@ -22,12 +23,13 @@ const legales = [
   <div class="contenedor pie-columnas">
     <div class="pie-marca">
       <a class="marca" href="/">
-        <img src="/recursos/marca.svg" alt="" width="34" height="34" />
+        <Marca ancho={40} />
         <span>Nutri<b>Office</b></span>
       </a>
       <p>
-        La gestión completa del consultorio de nutrición: pacientes, turnos,
-        planes, composición corporal y el seguimiento del día a día.
+        Plataforma de gestión para consultorios de nutrición: pacientes, turnos,
+        planes, composición corporal y seguimiento clínico sobre una misma base
+        de datos.
       </p>
     </div>
 
@@ -57,7 +59,7 @@ const legales = [
         <li>
           <a href="/#contacto">
             <Icono nombre="calendar-days" />
-            Pedir una demo
+            Solicitar una demostración
           </a>
         </li>
       </ul>
@@ -66,7 +68,7 @@ const legales = [
 
   <div class="contenedor pie-legal">
     <p>© <span id="anio">2026</span> NutriOffice. Todos los derechos reservados.</p>
-    <p class="pie-hecho">Hecho para licenciados en nutrición.</p>
+    <p class="pie-hecho">Desarrollado para licenciados en nutrición.</p>
   </div>
 </footer>
 

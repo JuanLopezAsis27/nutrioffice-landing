@@ -12,7 +12,7 @@ const vistas = [
     icono: "calendar-days",
     Componente: MaquetaTurnos,
     leyenda:
-      "La agenda es del establecimiento: cada sede tiene sus días, su horario y la duración del turno. Un turno fuera de esa agenda no entra, ni al darlo de alta ni al reprogramarlo.",
+      "La agenda pertenece al establecimiento: cada sede define sus días, su horario y la duración del turno. Un turno fuera de esa agenda no se admite, ni en el alta ni en la reprogramación.",
   },
   {
     id: "semana",
@@ -20,7 +20,7 @@ const vistas = [
     icono: "utensils",
     Componente: MaquetaPlanSemanal,
     leyenda:
-      "El total del día suma la comida principal de cada franja y no las alternativas, y se compara contra las metas del plan nutricional asignado.",
+      "El total del día suma la comida principal de cada franja y no sus alternativas, y se contrasta con las metas del plan nutricional asignado.",
   },
   {
     id: "antropometria",
@@ -28,7 +28,7 @@ const vistas = [
     icono: "ruler",
     Componente: MaquetaAntropometria,
     leyenda:
-      "Nada derivado se guarda: las masas, el somatotipo y el porcentaje graso se recalculan desde las medidas crudas cada vez que se abre la ficha.",
+      "Ningún valor derivado se almacena: las masas, el somatotipo y el porcentaje graso se recalculan a partir de las medidas crudas cada vez que se consulta la ficha.",
   },
   {
     id: "mensajes",
@@ -36,7 +36,7 @@ const vistas = [
     icono: "message-square",
     Componente: MaquetaMensajes,
     leyenda:
-      "El chat del portal y WhatsApp son un solo hilo por paciente. Si la API oficial no está conectada, los avisos salen igual por enlace.",
+      "El chat del portal y WhatsApp conforman un único hilo por paciente. Sin la API oficial conectada, los avisos se emiten igualmente por enlace.",
   },
 ];
 ---
@@ -45,10 +45,10 @@ const vistas = [
   <div class="contenedor">
     <header class="encabezado-seccion revelar">
       <p class="etiqueta-seccion">Pantallas</p>
-      <h2>Mirá cómo se ve por dentro</h2>
+      <h2>Cuatro vistas de uso diario</h2>
       <p class="bajada-seccion">
-        Cuatro de las pantallas que vas a usar todas las semanas. Son dibujos en
-        HTML, no capturas: siguen tu tema claro u oscuro y no envejecen.
+        La agenda de turnos, el menú semanal, la medición antropométrica y la
+        bandeja de mensajes, tal como se presentan en el sistema.
       </p>
     </header>
 

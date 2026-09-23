@@ -20,37 +20,38 @@ const integraciones = [
   {
     icono: "calendar-days",
     titulo: "Google Calendar",
-    texto: "Tus turnos, en el calendario que ya mirás todos los días.",
+    texto:
+      "Los turnos del consultorio, sincronizados con el calendario del profesional.",
   },
   {
     icono: "message-square",
     titulo: "WhatsApp Cloud API",
     texto:
-      "Recordatorios desde el número del consultorio y las respuestas del paciente en su ficha. Sin conectarla, todo sale igual por enlace de WhatsApp.",
+      "Recordatorios emitidos desde el número del consultorio y respuestas del paciente incorporadas a su ficha. Sin la API conectada, los avisos se emiten por enlace de WhatsApp.",
   },
   {
     icono: "sparkles",
     titulo: "Proveedores de IA",
     texto:
-      "Anthropic, OpenAI u OpenRouter con tu clave. La transcripción de audio va aparte.",
+      "Anthropic, OpenAI u OpenRouter con clave propia. La transcripción de audio se configura por separado.",
   },
   {
     icono: "watch",
     titulo: "Wearables",
     texto:
-      "Apple Health y Health Connect desde la app móvil: pasos, sueño y actividad sumados al seguimiento.",
+      "Apple Health y Health Connect desde la aplicación móvil: pasos, sueño y actividad incorporados al seguimiento.",
   },
   {
     icono: "mail",
-    titulo: "Email",
+    titulo: "Correo electrónico",
     texto:
-      "Bienvenida, recordatorios y recuperación de contraseña con tu servidor de correo.",
+      "Bienvenida, recordatorios y recuperación de contraseña a través del servidor de correo del consultorio.",
   },
   {
     icono: "file-spreadsheet",
-    titulo: "Tu tabla de alimentos",
+    titulo: "Tabla de alimentos propia",
     texto:
-      "Importás tu Excel y los planes calculan con tus valores, no con los de una base genérica.",
+      "La tabla del consultorio se importa desde una hoja de cálculo y los planes calculan con esos valores, no con los de una base genérica.",
   },
 ];
 ---
@@ -74,10 +75,11 @@ const integraciones = [
   <div class="contenedor">
     <header class="encabezado-seccion revelar">
       <p class="etiqueta-seccion">Integraciones</p>
-      <h2>Se conecta con lo que ya usás</h2>
+      <h2>Conexión con servicios externos</h2>
       <p class="bajada-seccion">
-        Cada servicio se da de alta una vez, con tus propias credenciales, y se
-        puede desconectar sin romper nada: la app funciona igual sin ninguno.
+        Cada servicio se da de alta una vez, con credenciales propias del
+        consultorio, y puede desconectarse en cualquier momento. El sistema
+        opera con normalidad sin ninguno de ellos.
       </p>
     </header>
 

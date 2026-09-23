@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NutriOffice">
   <title>NutriOffice</title>
-  <rect width="64" height="64" rx="14" fill="#161618"/>
-  <g transform="translate(32 32) scale(0.82) translate(-32 -32)">
-    <g fill="none" stroke="#FFFFFF" stroke-width="2.04" stroke-linecap="butt">
+  <g fill="none" stroke="#FFFFFF" stroke-width="2.04" stroke-linecap="butt">
     <path d="M12.92 21.42A21.82 21.82 0 0 1 51.08 21.42"/>
     <path d="M51.08 42.58A21.82 21.82 0 0 1 12.92 42.58"/>
   </g>
@@ -17,6 +15,5 @@
     <rect x="10.05" y="21.40" width="3.8" height="21.2" rx="1.3"/><rect x="50.15" y="21.40" width="3.8" height="21.2" rx="1.3"/>
     <rect x="5.66" y="22.95" width="3.81" height="18.1" rx="1.3"/><rect x="54.53" y="22.95" width="3.81" height="18.1" rx="1.3"/>
     <rect x="1.86" y="27.61" width="3.22" height="8.78" rx="1.3"/><rect x="58.92" y="27.61" width="3.22" height="8.78" rx="1.3"/>
-  </g>
   </g>
 </svg>

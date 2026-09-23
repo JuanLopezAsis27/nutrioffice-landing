@@ -1,0 +1,78 @@
+---
+/**
+ * El isotipo de NutriOffice: anillo, manzana y pesa.
+ *
+ * Va EN LÍNEA y no como <img> por una razón concreta: la marca tiene dos
+ * tintas. El coral es fijo —es la marca— y el resto (el anillo fino exterior y
+ * la pesa) es `currentColor`, así que toma el color del texto de alrededor:
+ * casi negro con el tema claro y casi blanco con el oscuro. Desde un <img> el
+ * SVG no puede heredar nada de la página y habría que mantener dos archivos.
+ *
+ * El `viewBox` está ajustado al dibujo —que es más ancho que alto— para que no
+ * arrastre márgenes vacíos. La versión cuadrada, con el dibujo centrado y aire
+ * arriba y abajo, es la de `public/recursos/marca.svg`, que se usa de favicon.
+ *
+ * El anillo fino son DOS ARCOS y no un círculo: en la marca original queda
+ * interrumpido donde pasa la pesa, y ese corte es parte del dibujo.
+ */
+interface Props {
+  /** Ancho en píxeles; el alto sale de la proporción del dibujo (1,3:1). */
+  ancho?: number;
+  clase?: string;
+}
+
+const { ancho = 42, clase } = Astro.props;
+const alto = Math.round((ancho * 47.2) / 61.2);
+---
+
+<svg
+  class:list={["isotipo", clase]}
+  viewBox="1.4 8.4 61.2 47.2"
+  width={ancho}
+  height={alto}
+  role="img"
+  aria-label="NutriOffice"
+>
+  <title>NutriOffice</title>
+
+  {/* Anillo fino exterior, interrumpido donde cruza la pesa. */}
+  <g fill="none" stroke="currentColor" stroke-width="2.04">
+    <path d="M12.92 21.42A21.82 21.82 0 0 1 51.08 21.42"></path>
+    <path d="M51.08 42.58A21.82 21.82 0 0 1 12.92 42.58"></path>
+  </g>
+
+  {/* Anillo grueso y manzana: el coral de la marca, fijo. */}
+  <circle cx="32" cy="32" r="17.68" fill="none" stroke="#F4535E" stroke-width="4.09"></circle>
+  <g fill="#F4535E">
+    <path
+      d="M31.7 29.6c-1.2-1.7-2.8-2.3-4.7-2.3-3.1 0-4.9 3-4.9 7.3 0 5.8 3.9 10.7 9.6 10.7s9.6-4.9 9.6-10.7c0-4.3-1.8-7.3-4.9-7.3-1.9 0-3.5.6-4.7 2.3Z"
+    ></path>
+    <path d="M30.6 24.4c1-3.6 4.4-5.6 9-5.4-.7 3.7-4.2 5.9-9 5.4Z"></path>
+    <path
+      d="M31.3 29.2c-.9-2.6-1.4-4.4-1.7-5.8"
+      fill="none"
+      stroke="#F4535E"
+      stroke-width="1.6"
+      stroke-linecap="round"></path>
+  </g>
+
+  {/* La pesa, por encima de los anillos: los cruza, no se esconde detrás. */}
+  <g fill="currentColor">
+    <rect x="14.43" y="30.17" width="6.44" height="3.66" rx="0.6"></rect>
+    <rect x="43.13" y="30.17" width="6.44" height="3.66" rx="0.6"></rect>
+    <rect x="10.05" y="21.40" width="3.8" height="21.2" rx="1.3"></rect>
+    <rect x="50.15" y="21.40" width="3.8" height="21.2" rx="1.3"></rect>
+    <rect x="5.66" y="22.95" width="3.81" height="18.1" rx="1.3"></rect>
+    <rect x="54.53" y="22.95" width="3.81" height="18.1" rx="1.3"></rect>
+    <rect x="1.86" y="27.61" width="3.22" height="8.78" rx="1.3"></rect>
+    <rect x="58.92" y="27.61" width="3.22" height="8.78" rx="1.3"></rect>
+  </g>
+</svg>
+
+<style>
+  .isotipo {
+    flex: none;
+    /* El coral queda fijo; lo que sigue al texto es el anillo fino y la pesa. */
+    color: hsl(var(--texto));
+  }
+</style>

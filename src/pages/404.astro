@@ -5,14 +5,14 @@ import Base from "../plantillas/Base.astro";
 const atajos = [
   { href: "/#modulos", icono: "layout-dashboard", texto: "Las funciones" },
   { href: "/#pantallas", icono: "monitor", texto: "Las pantallas" },
-  { href: "/#preguntas", icono: "circle-help", texto: "Preguntas frecuentes" },
-  { href: "/#contacto", icono: "mail", texto: "Escribirnos" },
+  { href: "/#composicion", icono: "ruler", texto: "El seguimiento" },
+  { href: "/#contacto", icono: "mail", texto: "Contacto" },
 ];
 ---
 
 <Base
   titulo="Página no encontrada — NutriOffice"
-  descripcion="La dirección que buscabas no existe o cambió de lugar."
+  descripcion="La dirección solicitada no existe o cambió de ubicación."
   compacta
 >
   <section class="perdida">
@@ -20,10 +20,10 @@ const atajos = [
 
     <div class="contenedor caja">
       <span class="numero" aria-hidden="true">404</span>
-      <h1>Esta dirección no existe</h1>
+      <h1>La dirección solicitada no existe</h1>
       <p>
-        O cambió de lugar. No es nada que hayas hecho mal: pasa cuando un enlace
-        queda viejo.
+        Es posible que el enlace haya quedado desactualizado o que el contenido
+        haya cambiado de ubicación.
       </p>
 
       <div class="atajos">

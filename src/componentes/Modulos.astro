@@ -6,73 +6,73 @@ const modulos = [
     icono: "users",
     titulo: "Pacientes",
     texto:
-      "Ficha completa con historia clínica, laboratorios, archivos y campos propios que define cada consultorio. Alta manual o leyendo un documento.",
+      "Ficha completa con historia clínica, laboratorios, archivos y campos propios de cada consultorio. El alta admite carga manual o interpretación de un documento.",
   },
   {
     icono: "calendar-days",
     titulo: "Turnos y agenda",
     texto:
-      "Calendario semanal con el detalle hora por hora. Varias sedes, cada una con sus días, su horario y la duración del turno. Nunca dos turnos superpuestos.",
+      "Calendario semanal con detalle hora por hora. Cada sede define sus días, su horario y la duración del turno, y el sistema impide las superposiciones.",
   },
   {
     icono: "clipboard-list",
     titulo: "Planes nutricionales",
     texto:
-      "Cargados franja por franja acá, o armados afuera y subidos en PDF. Con carpetas, plantillas y varios planes vigentes a la vez por paciente.",
+      "Se cargan franja por franja en el sistema o se incorporan en PDF. Admiten carpetas, plantillas y varios planes vigentes por paciente.",
   },
   {
     icono: "utensils",
     titulo: "Plan semanal",
     texto:
-      "El menú de los siete días con alternativas por comida, macros calculados y el total de cada día comparado contra las metas del paciente.",
+      "El menú de los siete días con alternativas por comida, macronutrientes calculados y el total de cada día contrastado con las metas del paciente.",
   },
   {
     icono: "book-open",
     titulo: "Recetario",
     texto:
-      "Recetas con fotos, etiquetas y carpetas. Se asignan al paciente y las abre desde su portal, con la preparación y los valores.",
+      "Recetas con fotografías, etiquetas y carpetas. Se asignan al paciente, que las consulta desde su portal con la preparación y los valores nutricionales.",
   },
   {
     icono: "library",
     titulo: "Biblioteca de material",
     texto:
-      "Guías, planillas y documentos del consultorio, compartidos con los pacientes que elijas. Se descargan siempre desde la app, nunca por un enlace público.",
+      "Guías, planillas y documentos del consultorio, compartidos con los pacientes que el profesional determine. La descarga se realiza desde el sistema, nunca por un enlace público.",
   },
   {
     icono: "ruler",
     titulo: "Antropometría",
     texto:
-      "Perfil ISAK, fraccionamiento de Kerr en cinco masas, somatotipo, Score-Z y ecuaciones de pliegues. Solo el peso es obligatorio.",
+      "Perfil ISAK, fraccionamiento de Kerr en cinco masas, somatotipo, Score-Z y ecuaciones de pliegues. Únicamente el peso es obligatorio.",
   },
   {
     icono: "trending-up",
     titulo: "Progreso y objetivos",
     texto:
-      "Peso, medidas y lo que el paciente registra cada día, contra metas de composición con proyección y ritmo esperado.",
+      "Peso, medidas y registros diarios del paciente, contrastados con metas de composición corporal que incluyen proyección y ritmo esperado.",
   },
   {
     icono: "message-square",
     titulo: "Mensajería",
     texto:
-      "Un solo hilo por paciente con los dos canales: el chat interno del portal y los mensajes de WhatsApp, cuando la API oficial está conectada.",
+      "Un hilo por paciente que reúne los dos canales: el chat interno del portal y los mensajes de WhatsApp cuando la API oficial está conectada.",
   },
   {
     icono: "bell-ring",
     titulo: "Recordatorios",
     texto:
-      "WhatsApp, email e invitación de calendario, con una sola política para los tres. El sistema no manda el mismo aviso dos veces.",
+      "WhatsApp, correo electrónico e invitación de calendario bajo una única política. El sistema no emite dos veces el mismo aviso.",
   },
   {
     icono: "bar-chart-3",
     titulo: "Estadísticas",
     texto:
-      "Turnos del período, pacientes nuevos, ingresos y cumplimiento, con el corte de fechas que elijas.",
+      "Turnos del período, pacientes nuevos, ingresos y cumplimiento, sobre el rango de fechas que se defina.",
   },
   {
     icono: "settings",
-    titulo: "Tu consultorio, a tu manera",
+    titulo: "Configuración del consultorio",
     texto:
-      "Membrete del PDF, franjas de comida, campos de la ficha, protocolos de medición y establecimientos: la app se acomoda a cómo trabajás.",
+      "Membrete del PDF, franjas de comida, campos de la ficha, protocolos de medición y establecimientos: el sistema se adapta a la modalidad de trabajo de cada consultorio.",
   },
 ];
 ---
@@ -81,11 +81,11 @@ const modulos = [
   <div class="contenedor">
     <header class="encabezado-seccion revelar">
       <p class="etiqueta-seccion">Funciones</p>
-      <h2>Todo lo que pasa en el consultorio, adentro</h2>
+      <h2>Los doce módulos del sistema</h2>
       <p class="bajada-seccion">
-        Doce módulos que comparten los mismos datos: lo que cargás en la consulta
-        aparece en la ficha, en el portal del paciente y en las estadísticas, sin
-        volver a escribirlo.
+        Todos operan sobre la misma base de datos: la información registrada durante
+        la consulta queda disponible en la ficha del paciente, en su portal y en
+        las estadísticas, sin volver a cargarla.
       </p>
     </header>
 

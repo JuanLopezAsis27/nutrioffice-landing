@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NutriOffice">
+  <title>NutriOffice</title>
+  <circle cx="32" cy="32" r="25" fill="none" stroke="#F4535E" stroke-width="6"/>
+  <g fill="#F4535E">
+    <path d="M32 27.4c-1.7-2.4-3.9-3.2-6.5-3.2-4.3 0-6.8 4.1-6.8 10.1 0 8 5.4 14.8 13.3 14.8s13.3-6.8 13.3-14.8c0-6-2.5-10.1-6.8-10.1-2.6 0-4.8.8-6.5 3.2Z"/>
+    <path d="M30.5 20.7c1.4-5 6.1-7.8 12.5-7.5-1 5.1-5.8 8.2-12.5 7.5Z"/>
+    <path d="M31.5 27.2c-1.2-3.6-1.9-6.1-2.3-8" fill="none" stroke="#F4535E" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+</svg>

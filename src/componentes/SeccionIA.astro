@@ -7,37 +7,37 @@ const funciones = [
     icono: "sparkles",
     titulo: "Asistente analítico",
     texto:
-      "Preguntale por tus pacientes, planes, recetas y turnos. Contesta leyendo tu base con herramientas, no de memoria.",
+      "Responde consultas sobre pacientes, planes, recetas y turnos leyendo la base de datos del consultorio con herramientas, no de memoria.",
   },
   {
     icono: "file-text",
     titulo: "Alta desde un documento",
     texto:
-      "Subís la historia clínica en PDF y precarga la ficha del paciente y sus evoluciones. Leer el mismo documento dos veces no duplica nada.",
+      "La historia clínica en PDF se interpreta y precarga la ficha del paciente junto con sus evoluciones. Releer el mismo documento no duplica registros.",
   },
   {
     icono: "file-spreadsheet",
-    titulo: "Importar tu planilla",
+    titulo: "Importación de planillas",
     texto:
-      "Años de antropometrías en un Excel, una columna por consulta, leídos y puestos en una tabla de revisión. Una fecha repetida no tira abajo el resto.",
+      "Años de antropometrías en una hoja de cálculo, con una columna por consulta, quedan volcados en una tabla de revisión. Una fecha repetida no invalida el resto.",
   },
   {
     icono: "mic",
-    titulo: "Grabar la consulta",
+    titulo: "Grabación de la consulta",
     texto:
-      "Grabás el audio desde el turno —se sigue grabando aunque navegues por la app—, se transcribe y queda un resumen de la consulta en la ficha.",
+      "El audio se graba desde la ficha del turno y continúa grabándose mientras se navega por el sistema. Luego se transcribe y queda un resumen en la ficha.",
   },
   {
     icono: "bot",
     titulo: "Asistente del paciente",
     texto:
-      "Dentro del portal, responde las dudas sobre su plan y sus recetas, con el tono y los límites que vos configurás.",
+      "Dentro del portal, responde las dudas sobre el plan y las recetas con el tono y los límites que define el consultorio.",
   },
   {
     icono: "notebook-pen",
-    titulo: "Las instrucciones son tuyas",
+    titulo: "Instrucciones configurables",
     texto:
-      "Los siete textos que guían al modelo se editan desde Configuración: tu jerga, tus títulos y tu forma de escribir un resumen.",
+      "Los siete textos que guían al modelo se editan desde Configuración: terminología propia, títulos y forma de redactar un resumen.",
   },
 ];
 ---
@@ -50,9 +50,9 @@ const funciones = [
       <p class="etiqueta-seccion">Inteligencia artificial</p>
       <h2>La carga de datos, resuelta</h2>
       <p class="bajada-seccion">
-        Siete funciones usan un modelo de lenguaje, y todas comparten la misma
-        regla: <strong>la IA nunca guarda sola</strong>. Lee, precarga el
-        formulario y vos revisás antes de confirmar.
+        Siete funciones utilizan un modelo de lenguaje bajo una misma regla:
+        <strong>la inteligencia artificial no guarda información por su cuenta</strong>.
+        Interpreta, precarga el formulario y el profesional confirma.
       </p>
     </header>
 
@@ -70,9 +70,9 @@ const funciones = [
 
     <p class="nota-seccion revelar">
       <Icono nombre="lock" />
-      Conectás tu propia clave de Anthropic, OpenAI u OpenRouter. Sin clave
-      configurada, estas funciones quedan apagadas: la app jamás inventa un dato
-      clínico.
+      Las funciones se activan con una clave propia de Anthropic, OpenAI u
+      OpenRouter. Sin clave configurada permanecen desactivadas: el sistema no
+      genera datos clínicos de demostración.
     </p>
   </div>
 </section>
